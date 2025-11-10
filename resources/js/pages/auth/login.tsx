@@ -1,6 +1,10 @@
+/* Daniel aca te muestro el como se implementa la caracteristica para mostrar y ocultar la contrase;a en el input, te dejo como tarea
+    que implementes lo mismo en el formulario de registro
+*/
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react'; //<--- para manejar el estado del icono usaremos el hook useState de react
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai' //<---- Importamos los iconos
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -22,6 +26,9 @@ interface LoginProps {
 }
 
 export default function Login({ status, canResetPassword }: LoginProps) {
+    const [showPassword, setShowPassword] = useState(false); //<--- aca usaremos el manejo de estado, basicamente es como una variable que almacena el valor en showPassword y setShowPassword es la funcion que nos permitira modificar ese valor
+    //Nota : En este caso el valor de showPaswword es un booleano, ya que lo unico que necesitamos es que si una condicion se cumple, mostramos la contrase;a / [1 o 0]
+
     const { data, setData, post, processing, errors, reset } = useForm<Required<LoginForm>>({
         email: '',
         password: '',
@@ -57,7 +64,10 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         <InputError message={errors.email} />
                     </div>
 
-                    <div className="grid gap-2">
+
+                    {/*  ========= Inicio de la etiqueta Padre ============ */}
+                    
+                    <div className="grid gap-2 relative"> {/* A la etiqueta padre le asignamos una posicion relativa, esto es para que el hijo lo tome como referencia */}
                         <div className="flex items-center">
                             <Label htmlFor="password">Contraseña</Label>
                             {canResetPassword && (
@@ -68,7 +78,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         </div>
                         <Input
                             id="password"
-                            type="password"
+                            type={showPassword ? "text" : "password"} // Aca manejamos la configuracion del input, esta es la clave para mostra u ocultar el texto en el input, solo validamos si showPassword es verdadero, si se cumple cambiamos el type del input a text, si no se cumple sera de tipo password
                             required
                             tabIndex={2}
                             autoComplete="current-password"
@@ -76,8 +86,19 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             onChange={(e) => setData('password', e.target.value)}
                             placeholder="Mínimo de 8 caracteres"
                         />
+
+                        {/*Este es el elemento contenedor que nos servira para posicionar los iconos dentro del input, si te fijas se le agrego una posicion absoluta esto es para que tome como referencia de posicion al padre, posicionandolo por default en el eje x:0 y:0, si te fijas en las clases right-5 y bottom-2.5, ahi se le asigan la posicion que queremos.*/}
+
+                        <div className='absolute right-5 bottom-2.5 cursor-pointer' 
+                        onClick={() => setShowPassword(!showPassword)}> {/* Este contenedor se encargara de manejar el click para cambiar el valor de showPassword */}
+
+                            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />} {/* aca simplemente validamos el valor de showPassword y mostramos el icono adecuado. */}
+
+                        </div>
                         <InputError message={errors.password} />
                     </div>
+
+                    {/* ========= Cierre de la etiqueta Padre ============ */}
 
                     <div className="flex items-center space-x-3">
                         <Checkbox
