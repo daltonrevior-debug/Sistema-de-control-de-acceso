@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Enlace a la tabla 'users'
         $table->string('employee_id')->unique(); // ID Único de la empresa (Ej: EMP-001)
+        $table->string('first_name');
+        $table->string('last_name');
+        $table->string('personal_email')->nullable();
         $table->string('phone')->nullable();
         $table->date('hire_date');
         $table->foreignId('department_id')->constrained()->onDelete('restrict'); // Enlace a departments
