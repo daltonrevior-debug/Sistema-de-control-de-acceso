@@ -1,10 +1,9 @@
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, User, ListCheck, Dock, Cog } from 'lucide-react';
+import { LayoutGrid, User, ListCheck, Dock, Cog, Users, UserPlus } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -15,8 +14,19 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Personal',
-        href: '/dashboard',
         icon: User,
+        children: [
+            {
+                title: 'Gestión de Empleados',
+                href: route('personnel.employees.index'),
+                icon: Users,
+            },
+            {
+                title: 'Añadir Empleado',
+                href: route('personnel.employees.create'),
+                icon: UserPlus,
+            }
+        ]
     },
     {
         title: 'Asistencias',

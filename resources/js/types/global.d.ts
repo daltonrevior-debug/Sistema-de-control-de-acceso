@@ -17,14 +17,15 @@ interface Department {
 
 interface Employee {
     id: number;
-    user_id: number;
     employee_id: string; // Ej: EMP-001
+    first_name: string,
+    last_name : string,
+    personal_email : string,
     phone: string | null;
     hire_date: string; // Formato de fecha
     department_id: number;
     position: string | null;
     status: 'active' | 'inactive' | 'terminated';
-    user: User; // Relación cargada
     department: Department; // Relación cargada
 }
 
@@ -43,5 +44,30 @@ interface EmployeeIndexProps {
 }
 
 interface EmployeeCreateProps {
+    departments: Department[];
+}
+
+interface Department {
+    id: number;
+    name: string;
+}
+
+// Tipo simplificado del Empleado
+interface EmployeeData {
+    id: number;
+    first_name: string;
+    last_name: string;
+    personal_email: string | null;
+    employee_id: string;
+    hire_date: string;
+    department_id: number;
+    position: string | null;
+    phone: string | null;
+    status: 'active' | 'inactive' | 'terminated';
+}
+
+// Props para la vista EmployeeEdit
+interface EmployeeEditProps {
+    employee: EmployeeData;
     departments: Department[];
 }
