@@ -19,10 +19,16 @@ class Employee extends Model
         'position',
         'phone',
         'status',
+        'schedule_id'
     ];
     
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
     }
 }
