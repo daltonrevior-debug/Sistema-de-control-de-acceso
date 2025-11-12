@@ -30,7 +30,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Asistencias',
-        href: '/dashboard',
+        href: route('attendance.index'),
         icon: ListCheck,
     },
     {
