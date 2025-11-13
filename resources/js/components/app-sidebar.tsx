@@ -3,13 +3,13 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, User, ListCheck, Dock, Cog, Users, UserPlus, Clock, Handshake, Calendar } from 'lucide-react';
+import { LayoutGrid, User, ListCheck, Dock, Cog, Users, UserPlus, Clock, Handshake, Calendar, BarChart3 } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: route('reports.index'),
         icon: LayoutGrid,
     },
     {
@@ -72,8 +72,24 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Reportes',
-        href: '/dashboard',
         icon: Dock,
+        children: [
+            {
+                title: 'Resumen de Ausencias',
+                href: route('reports.absence-summary'),
+                icon: Calendar,
+            },
+            {
+                title: 'Balance Días Libres',
+                href: route('reports.leave-balance'),
+                icon: Clock,
+            },
+            {
+                title: 'Asistencia Detallada',
+                href: route('reports.attendance-detail'),
+                icon: BarChart3,
+            },
+        ]
     }
 ];
 

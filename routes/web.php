@@ -43,6 +43,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/{absenceRequest}/reject', 'reject')->name('reject');
         });
     });
+
+    Route::prefix('reports')->name('reports.')->controller(\App\Http\Controllers\ReportController::class)->group(function () {
+        Route::get('/', 'index')->name('index'); 
+        Route::get('/absence-summary', 'absenceSummary')->name('absence-summary');
+        Route::get('/leave-balance', 'leaveBalance')->name('leave-balance');
+        Route::get('/attendance-detail', 'attendanceDetail')->name('attendance-detail');
+        Route::get('/personnel-list', 'personnelList')->name('personnel-list');
+    });
 });
 
 require __DIR__ . '/settings.php';
