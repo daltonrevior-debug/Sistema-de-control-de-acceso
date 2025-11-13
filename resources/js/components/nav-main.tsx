@@ -12,12 +12,12 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
 
     return (
         <SidebarGroup className="px-2 py-0">
-            <SidebarGroupLabel>Platform</SidebarGroupLabel>
+            <SidebarGroupLabel>Menu</SidebarGroupLabel>
             <SidebarMenu>
                 {items.map((item) => {
 
                     if (item.children && item.children.length > 0) {
-                        const hasActiveChild = isSubItemActive(item.children);
+                        const hasActiveChild = true;
 
                         return (
 
