@@ -26,12 +26,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/check-in', [\App\Http\Controllers\AttendanceController::class, 'checkIn'])->name('check.in');
         Route::post('/check-out', [\App\Http\Controllers\AttendanceController::class, 'checkOut'])->name('check.out');
         Route::get('/history', [\App\Http\Controllers\AttendanceController::class, 'history'])->name('history');
+        Route::get('/request', [\App\Http\Controllers\AbsenceRequestController::class, 'createEmployeeRequest'])->name('request.create');
+        Route::post('/request', [\App\Http\Controllers\AbsenceRequestController::class, 'storeEmployeeRequest'])->name('request.store');
     });
 
     Route::prefix('config')->name('config.')->group(function () {
         Route::resource('schedules', \App\Http\Controllers\ScheduleController::class)->only([
         'index', 'create', 'store', 'edit', 'update', 'destroy'
         ]);
+        Route::resource('absence-types', \App\Http\Controllers\AbsenceTypeController::class)->only([
+            'index', 'create', 'store', 'edit', 'update', 'destroy'
+        ]);
+        Route::prefix('absence-requests')->name('absence-requests.')->controller(\App\Http\Controllers\AbsenceRequestController::class)->group(function () {
+            Route::get('/', 'indexAdminReview')->name('index');
+            Route::post('/{absenceRequest}/approve', 'approve')->name('approve');
+            Route::post('/{absenceRequest}/reject', 'reject')->name('reject');
+        });
     });
 });
 

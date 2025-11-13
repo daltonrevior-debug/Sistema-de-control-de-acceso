@@ -52,7 +52,6 @@ interface Department {
     name: string;
 }
 
-// Tipo simplificado del Empleado
 interface EmployeeData {
     id: number;
     first_name: string;
@@ -66,7 +65,6 @@ interface EmployeeData {
     status: 'active' | 'inactive' | 'terminated';
 }
 
-// Props para la vista EmployeeEdit
 interface EmployeeEditProps {
     employee: EmployeeData;
     departments: Department[];
@@ -116,4 +114,30 @@ export interface PageProps {
         success: string | null;
         error: string | null;
     };
+}
+
+export interface AbsenceType {
+    id: number;
+    name: string;
+    description: string | null;
+    is_paid: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface AbsenceRequest {
+    id: number;
+    employee_id: number;
+    absence_type_id: number;
+    start_date: string;
+    end_date: string;
+    status: 'pending' | 'approved' | 'rejected';
+    reason: string;
+    rejection_reason: string | null;
+    approver_id: number | null;
+    created_at: string;
+    updated_at: string;
+    employee?: { id: number, first_name: string, last_name: string };
+    absence_type?: AbsenceType;
+    approver?: { id: number, name: string };
 }

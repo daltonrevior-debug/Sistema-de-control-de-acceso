@@ -3,7 +3,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, User, ListCheck, Dock, Cog, Users, UserPlus, Clock } from 'lucide-react';
+import { LayoutGrid, User, ListCheck, Dock, Cog, Users, UserPlus, Clock, Handshake, Calendar } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -42,12 +42,12 @@ const mainNavItems: NavItem[] = [
                 href: route('attendance.history'),
                 icon: ListCheck,
             },
+            {
+                title: 'Solicitar Ausencia',
+                href: route('attendance.request.create'),
+                icon: Handshake,
+            }
         ]
-    },
-    {
-        title: 'Reportes',
-        href: '/dashboard',
-        icon: Dock,
     },
     {
         title: 'Configuracion',
@@ -58,7 +58,22 @@ const mainNavItems: NavItem[] = [
                 href: route('config.schedules.index'),
                 icon: Clock,
             },
+            {
+                title: 'Tipos de Ausencia',
+                href: route('config.absence-types.index'),
+                icon: ListCheck,
+            },
+            {
+                title: 'Solicitudes (Admin)',
+                href: route('config.absence-requests.index'),
+                icon: Calendar,
+            },
         ]
+    },
+    {
+        title: 'Reportes',
+        href: '/dashboard',
+        icon: Dock,
     }
 ];
 
