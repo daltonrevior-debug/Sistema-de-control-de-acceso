@@ -71,3 +71,49 @@ interface EmployeeEditProps {
     employee: EmployeeData;
     departments: Department[];
 }
+
+interface Link {
+    url: string | null;
+    label: string;
+    active: boolean;
+}
+
+export interface PaginatedData<T> {
+    current_page: number;
+    data: T[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: Link[];
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+}
+
+export interface Schedule {
+    id: number;
+    name: string;
+    start_time: string; // Ej: '09:00:00'
+    end_time: string;   // Ej: '17:00:00'
+    tardy_tolerance_minutes: number;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface PageProps {
+    auth: {
+        user: {
+            id: number;
+            name: string;
+            email: string;
+        };
+    };
+    flash: {
+        success: string | null;
+        error: string | null;
+    };
+}

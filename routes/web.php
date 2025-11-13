@@ -27,6 +27,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/check-out', [\App\Http\Controllers\AttendanceController::class, 'checkOut'])->name('check.out');
         Route::get('/history', [\App\Http\Controllers\AttendanceController::class, 'history'])->name('history');
     });
+
+    Route::prefix('config')->name('config.')->group(function () {
+        Route::resource('schedules', \App\Http\Controllers\ScheduleController::class)->only([
+        'index', 'create', 'store', 'edit', 'update', 'destroy'
+        ]);
+    });
 });
 
 require __DIR__ . '/settings.php';

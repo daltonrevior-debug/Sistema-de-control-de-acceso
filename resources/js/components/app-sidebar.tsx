@@ -51,8 +51,14 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Configuracion',
-        href: '/dashboard',
         icon: Cog,
+        children: [
+            {
+                title: 'Horarios',
+                href: route('config.schedules.index'),
+                icon: Clock,
+            },
+        ]
     }
 ];
 
