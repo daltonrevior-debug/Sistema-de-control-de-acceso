@@ -25,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [\App\Http\Controllers\AttendanceController::class, 'index'])->name('index'); 
         Route::post('/check-in', [\App\Http\Controllers\AttendanceController::class, 'checkIn'])->name('check.in');
         Route::post('/check-out', [\App\Http\Controllers\AttendanceController::class, 'checkOut'])->name('check.out');
+        Route::get('/history', [\App\Http\Controllers\AttendanceController::class, 'history'])->name('history');
     });
 });
 

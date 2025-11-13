@@ -3,7 +3,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, User, ListCheck, Dock, Cog, Users, UserPlus } from 'lucide-react';
+import { LayoutGrid, User, ListCheck, Dock, Cog, Users, UserPlus, Clock } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -30,8 +30,19 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Asistencias',
-        href: route('attendance.index'),
         icon: ListCheck,
+        children: [
+            {
+                title: 'Marcaje Diario',
+                href: route('attendance.index'),
+                icon: Clock,
+            },
+            {
+                title: 'Historial',
+                href: route('attendance.history'),
+                icon: ListCheck,
+            },
+        ]
     },
     {
         title: 'Reportes',

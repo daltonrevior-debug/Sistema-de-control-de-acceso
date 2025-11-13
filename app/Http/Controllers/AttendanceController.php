@@ -124,4 +124,54 @@ class AttendanceController extends Controller
 
         return redirect()->route('attendance.index')->with('success', '¡Check-Out registrado!');
     }
+
+    public function history(Request $request)
+    {
+        $employeeId = $this->getEmployeeId();
+        
+        if (!$employeeId) {
+            return back()->with('error', 'No se pudo identificar al empleado.');
+        }
+
+        // --- Filtros ---
+        // Rango de fechas: Por defecto, los últimos 30 días
+        $startDate = $request->input('start_date', Carbon::now()->subDays(30)->toDateString());
+        $endDate = $request->input('end_date', Carbon::now()->toDateString());
+        
+        // --- Consulta de Datos ---
+        $attendances = Attendance::where('employee_id', $employeeId)
+            ->whereDate('check_in_at', '>=', $startDate)
+            ->whereDate('check_in_at', '<=', $endDate)
+            ->whereNotNull('check_out_at')
+            ->orderByDesc('check_in_at')
+            ->get();
+            
+        // --- Formateo y Cálculo de Horas ---
+        // Usamos una colección para mapear y calcular la duración de la jornada
+        $historyData = $attendances->map(function ($attendance) {
+            
+            $checkIn = Carbon::parse($attendance->check_in_at);
+            $checkOut = Carbon::parse($attendance->check_out_at);
+            
+            // Calcula la duración total de la jornada
+            $duration = $checkIn->diff($checkOut);
+            
+            return [
+                'id' => $attendance->id,
+                'date' => $checkIn->toDateString(),
+                'check_in' => $checkIn->format('H:i:s'),
+                'check_out' => $checkOut->format('H:i:s'),
+                'status' => $attendance->status, // Normal, tardy, etc.
+                'total_time' => sprintf('%dh %dm', $duration->h, $duration->i),
+            ];
+        });
+
+        return Inertia::render('attendance/AttendanceHistory', [
+            'historyData' => $historyData,
+            'filters' => [
+                'start_date' => $startDate,
+                'end_date' => $endDate,
+            ]
+        ]);
+    }
 }
