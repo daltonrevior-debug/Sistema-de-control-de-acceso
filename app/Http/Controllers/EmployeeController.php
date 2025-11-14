@@ -29,7 +29,7 @@ class EmployeeController extends Controller
     public function create()
     {
         // Necesitamos la lista de departamentos para el select del formulario
-        $departments = Department::select('id', 'name')->where('is_active', true)->get();
+        $departments = Department::select('id', 'name', 'description')->get();
 
         return Inertia::render('personnel/EmployeeCreate', [
             'departments' => $departments,
@@ -77,7 +77,7 @@ class EmployeeController extends Controller
         $employee->load('department'); 
 
         // Necesitamos la lista de departamentos para el select del formulario.
-        $departments = Department::select('id', 'name')->where('is_active', true)->get();
+        $departments = Department::select('id', 'name','description')->get();
 
         return Inertia::render('personnel/EmployeeEdit', [
             'employee' => $employee,
