@@ -38,6 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('absence-types', \App\Http\Controllers\AbsenceTypeController::class)->only([
             'index', 'create', 'store', 'edit', 'update', 'destroy'
         ]);
+        Route::resource('departments', \App\Http\Controllers\DepartmentController::class)->except(['show']);
         Route::prefix('absence-requests')->name('absence-requests.')->controller(\App\Http\Controllers\AbsenceRequestController::class)->group(function () {
             Route::get('/', 'indexAdminReview')->name('index');
             Route::post('/{absenceRequest}/approve', 'approve')->name('approve');

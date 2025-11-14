@@ -13,6 +13,7 @@ interface User {
 interface Department {
     id: number;
     name: string;
+    description: string;
 }
 
 interface Employee {
@@ -45,11 +46,6 @@ interface EmployeeIndexProps {
 
 interface EmployeeCreateProps {
     departments: Department[];
-}
-
-interface Department {
-    id: number;
-    name: string;
 }
 
 interface EmployeeData {
