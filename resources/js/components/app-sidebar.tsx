@@ -46,6 +46,11 @@ const mainNavItems: NavItem[] = [
                 title: 'Solicitar Ausencia',
                 href: route('attendance.request.create'),
                 icon: Handshake,
+            },
+            {
+                title: 'Historial de Ausencias',
+                href: route('attendance.absence-history'),
+                icon: Calendar, 
             }
         ]
     },

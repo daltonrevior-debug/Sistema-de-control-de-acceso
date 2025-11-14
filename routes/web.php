@@ -28,6 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/history', [\App\Http\Controllers\AttendanceController::class, 'history'])->name('history');
         Route::get('/request', [\App\Http\Controllers\AbsenceRequestController::class, 'createEmployeeRequest'])->name('request.create');
         Route::post('/request', [\App\Http\Controllers\AbsenceRequestController::class, 'storeEmployeeRequest'])->name('request.store');
+        Route::get('/absence-history', [\App\Http\Controllers\AbsenceRequestController::class, 'employeeHistory'])->name('absence-history');
     });
 
     Route::prefix('config')->name('config.')->group(function () {

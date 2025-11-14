@@ -89,4 +89,22 @@ class AbsenceRequestController extends Controller
 
         return redirect()->route('config.absence-requests.index')->with('success', 'Solicitud de ausencia rechazada.');
     }
+
+    public function employeeHistory()
+    {
+        $employeeId = $this->getEmployeeId(); 
+
+        if (!$employeeId) {
+            return back()->with('error', 'Su perfil de usuario no está vinculado a un empleado activo.');
+        }
+
+        $requests = AbsenceRequest::where('employee_id', $employeeId)
+            ->with('absenceType:id,name', 'approver:id,name')
+            ->orderByDesc('created_at')
+            ->paginate(10);
+
+        return Inertia::render('attendance/AbsenceRequestHistory', [
+            'requests' => $requests,
+        ]);
+    }
 }
