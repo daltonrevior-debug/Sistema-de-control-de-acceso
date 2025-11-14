@@ -1,32 +1,37 @@
-// resources/js/Pages/Reports/LeaveBalance.tsx
-
 import React from 'react';
 import { Head, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { List, Download, Hourglass } from 'lucide-react';
 
-interface Balance {
+interface EmployeeBalance {
+    employeeId: number;
     employeeName: string;
-    type: string;
-    assigned: number;
-    used: number;
-    remaining: number;
+    balances: {
+        type: string;
+        assigned: number;
+        used: number;
+        remaining: number;
+    }[];
 }
 
-const mockBalances: Balance[] = [
-    { employeeName: 'Ana García', type: 'Vacaciones', assigned: 15, used: 5, remaining: 10 },
-    { employeeName: 'Benito López', type: 'Vacaciones', assigned: 15, used: 15, remaining: 0 },
-    { employeeName: 'Carlos Ruiz', type: 'Días Personales', assigned: 5, used: 2, remaining: 3 },
-    { employeeName: 'Ana García', type: 'Días Personales', assigned: 5, used: 0, remaining: 5 },
-];
+interface LeaveBalanceProps {
+    employeeBalances: EmployeeBalance[];
+}
 
-const LeaveBalance: React.FC = () => {
+const LeaveBalance: React.FC<LeaveBalanceProps> = ({ employeeBalances }) => {
     
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Reportes', href: route('reports.index') },
         { title: 'Balance de Días Libres', href: route('reports.leave-balance') },
     ];
+    
+    const flattenedBalances = employeeBalances.flatMap(emp => 
+        emp.balances.map(b => ({
+            employeeName: emp.employeeName,
+            ...b
+        }))
+    );
     
     return (
         <AuthenticatedLayout breadcrumbs={breadcrumbs}>
@@ -59,7 +64,7 @@ const LeaveBalance: React.FC = () => {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {mockBalances.map((balance, index) => (
+                                        {flattenedBalances.map((balance, index) => (
                                             <tr key={index} className="hover:bg-gray-50">
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{balance.employeeName}</td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{balance.type}</td>

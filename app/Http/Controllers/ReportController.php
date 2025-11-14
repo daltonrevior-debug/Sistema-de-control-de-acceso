@@ -153,12 +153,19 @@ class ReportController extends Controller
         ]);
     }
     
-    public function personnelList() { 
+    public function personnelList(Request $request) { 
+        $departmentId = $request->input('department_id');
+
         $query = Employee::with('department:id,name')
             ->select('id', 'first_name', 'last_name', 'department_id', 'position', 'hire_date', 'personal_email');
 
+        if ($departmentId) {
+            $query->where('department_id', $departmentId);
+        }
+
         $employees = $query->orderBy('last_name')
-            ->paginate(20);
+            ->paginate(20)
+            ->withQueryString();
             
         // --- Transformación de Datos ---
         $employees->getCollection()->transform(function ($employee) {
@@ -167,17 +174,17 @@ class ReportController extends Controller
                 'fullName' => "{$employee->first_name} {$employee->last_name}",
                 'department' => $employee->department->name ?? 'No Asignado',
                 'position' => $employee->position,
-                'hiringDate' => Carbon::parse($employee->hire_date)->toDateString(),
+                'hiringDate' => $employee->hire_date ? \Carbon\Carbon::parse($employee->hire_date)->toDateString() : 'N/A',
                 'email' => $employee->personal_email ?? 'N/A',
             ];
         });
         
-        // Lista de departamentos para el filtro del frontend
-        $departments = Department::select('id', 'name')->get();
+        $departments = \App\Models\Department::select('id', 'name')->get();
         
         return Inertia::render('reports/PersonnelList', [
             'employees' => $employees,
             'departments' => $departments,
+            'filters' => $request->only('department_id'), 
         ]);
     }
 }

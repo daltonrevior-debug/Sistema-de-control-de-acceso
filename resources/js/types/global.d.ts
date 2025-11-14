@@ -137,3 +137,26 @@ export interface AbsenceRequest {
     absence_type?: AbsenceType;
     approver?: { id: number, name: string };
 }
+
+export interface PaginationLink {
+    url: string | null;
+    label: string;
+    active: boolean;
+}
+
+// Define la estructura de datos paginados de Laravel, usando T como un tipo genérico
+export interface PaginatedData<T> {
+    current_page: number;
+    data: T[]; 
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: PaginationLink[];
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+}
