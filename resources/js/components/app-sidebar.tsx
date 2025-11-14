@@ -89,6 +89,11 @@ const mainNavItems: NavItem[] = [
                 href: route('reports.attendance-detail'),
                 icon: BarChart3,
             },
+            {
+                title: 'Listado de Personal',
+                href: route('reports.personnel-list'),
+                icon: Users,
+            }
         ]
     }
 ];
