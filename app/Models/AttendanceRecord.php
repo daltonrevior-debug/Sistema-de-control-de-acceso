@@ -14,6 +14,9 @@ class AttendanceRecord extends Model
         'employee_id',
         'check_in_time',
         'check_out_time',
+        'check_in_ip',
+        'check_out_ip',
+        'status',
     ];
 
     protected $casts = [
