@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\AttendanceRecord;
 use App\Models\Employee;
 use Carbon\Carbon;
 
@@ -127,11 +128,11 @@ class AttendanceController extends Controller
 
     public function history(Request $request)
     {
-        $employeeId = $this->getEmployeeId();
+        // $employeeId = $this->getEmployeeId();
         
-        if (!$employeeId) {
-            return back()->with('error', 'No se pudo identificar al empleado.');
-        }
+        // if (!$employeeId) {
+        //     return back()->with('error', 'No se pudo identificar al empleado.');
+        // }
 
         // --- Filtros ---
         // Rango de fechas: Por defecto, los últimos 30 días
@@ -139,11 +140,10 @@ class AttendanceController extends Controller
         $endDate = $request->input('end_date', Carbon::now()->toDateString());
         
         // --- Consulta de Datos ---
-        $attendances = Attendance::where('employee_id', $employeeId)
-            ->whereDate('check_in_at', '>=', $startDate)
-            ->whereDate('check_in_at', '<=', $endDate)
-            ->whereNotNull('check_out_at')
-            ->orderByDesc('check_in_at')
+        $attendances = AttendanceRecord::whereDate('check_in_time', '>=', $startDate)
+            ->whereDate('check_in_time', '<=', $endDate)
+            ->whereNotNull('check_out_time')
+            ->orderByDesc('check_in_time')
             ->get();
             
         // --- Formateo y Cálculo de Horas ---
@@ -151,7 +151,7 @@ class AttendanceController extends Controller
         $historyData = $attendances->map(function ($attendance) {
             
             $checkIn = Carbon::parse($attendance->check_in_at);
-            $checkOut = Carbon::parse($attendance->check_out_at);
+            $checkOut = Carbon::parse($attendance->check_out_time);
             
             // Calcula la duración total de la jornada
             $duration = $checkIn->diff($checkOut);
