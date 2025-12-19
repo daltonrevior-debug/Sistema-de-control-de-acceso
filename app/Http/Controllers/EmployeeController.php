@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Models\Department;
+use App\Models\Schedule;
 use App\Models\Employee;
 use App\Http\Requests\EmployeeStoreRequest;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +17,7 @@ class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
-        $employees = Employee::with('department')
+        $employees = Employee::with(['department', 'schedule'])
             ->latest()
             ->paginate(10);
 
@@ -28,23 +29,21 @@ class EmployeeController extends Controller
 
     public function create()
     {
-        // Necesitamos la lista de departamentos para el select del formulario
         $departments = Department::select('id', 'name', 'description')->get();
+        $schedule = Schedule::select('id', 'name', 'tardy_tolerance_minutes')->get();
 
         return Inertia::render('personnel/EmployeeCreate', [
             'departments' => $departments,
+            'schedule' => $schedule
         ]);
     }
 
     public function store(EmployeeStoreRequest $request)
     {
-        // Utiliza una transacción para asegurar que, si falla al crear el Empleado,
-        // también se revierta la creación del Usuario.
         DB::beginTransaction();
 
         try {
 
-            // 1. Crear el registro del empleado (detalles laborales)
             Employee::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -52,6 +51,7 @@ class EmployeeController extends Controller
                 'employee_id' => $request->employee_id,
                 'hire_date' => $request->hire_date,
                 'department_id' => $request->department_id,
+                'schedule_id' => $request->schedule_id,
                 'position' => $request->position,
                 'phone' => $request->phone,
             ]);
@@ -74,14 +74,17 @@ class EmployeeController extends Controller
     public function edit(Employee $employee)
     {
         // Precargar la información relacionada con el empleado.
-        $employee->load('department'); 
+        $employee->load('department');
+        $employee->load('schedule');  
 
         // Necesitamos la lista de departamentos para el select del formulario.
         $departments = Department::select('id', 'name','description')->get();
+        $schedule = Schedule::select('id', 'name', 'tardy_tolerance_minutes')->get();
 
         return Inertia::render('personnel/EmployeeEdit', [
             'employee' => $employee,
             'departments' => $departments,
+            'schedule' => $schedule
         ]);
     }
 
@@ -101,6 +104,7 @@ class EmployeeController extends Controller
                 'employee_id' => $request->employee_id,
                 'hire_date' => $request->hire_date,
                 'department_id' => $request->department_id,
+                'schedule_id' => $request->schedule_id,
                 'position' => $request->position,
                 'phone' => $request->phone,
                 'status' => $request->status,

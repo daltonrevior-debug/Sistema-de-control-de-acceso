@@ -1,5 +1,3 @@
-// resources/js/Pages/Personnel/EmployeeEdit.tsx
-
 import React from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/layouts/app-layout';
@@ -17,31 +15,24 @@ const breadcrumbs: BreadcrumbItem[] = [
     }
 ];
 
-const EmployeeEdit: React.FC<EmployeeEditProps> = ({ employee, departments }) => {
+const EmployeeEdit: React.FC<EmployeeEditProps> = ({ employee, departments, schedule }) => {
 
-    // ------------------------------------
-    // 1. Inicialización del formulario con datos existentes
-    // ------------------------------------
-    // IMPORTANTE: Inicializamos el useForm con los datos del empleado recibido
     const { data, setData, put, processing, errors } = useForm({
-        _method: 'put', // Necesario para simular el método PUT/PATCH en Laravel
+        _method: 'put',
         first_name: employee.first_name,
         last_name: employee.last_name,
         personal_email: employee.personal_email || '',
         employee_id: employee.employee_id,
         hire_date: employee.hire_date,
-        department_id: employee.department_id.toString(), 
+        department_id: employee?.department_id?.toString(),
+        schedule_id: employee?.schedule_id?.toString(),
         position: employee.position || '',
         phone: employee.phone || '',
         status: employee.status,
     });
 
-    // ------------------------------------
-    // 2. Función de envío (Submission)
-    // ------------------------------------
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Usamos PUT al endpoint de actualización
         put(route('personnel.employees.update', employee.id));
     };
 
@@ -102,7 +93,7 @@ const EmployeeEdit: React.FC<EmployeeEditProps> = ({ employee, departments }) =>
                                         onChange={(e) => setData('phone', e.target.value)}
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
                                     />
-                                    {errors.department_id && <div className="text-red-500 text-xs mt-1">{errors.department_id}</div>}
+                                    {errors.phone && <div className="text-red-500 text-xs mt-1">{errors.phone}</div>}
                                 </div>
                             </div>
 
@@ -162,6 +153,21 @@ const EmployeeEdit: React.FC<EmployeeEditProps> = ({ employee, departments }) =>
                                         ))}
                                     </select>
                                     {errors.department_id && <div className="text-red-500 text-xs mt-1">{errors.department_id}</div>}
+                                </div>
+                                <div>
+                                    <label htmlFor="schedule_id" className="block text-sm font-medium text-gray-700">Horario</label>
+                                    <select
+                                        id="schedule_id"
+                                        value={data.schedule_id}
+                                        onChange={(e) => setData('schedule_id', e.target.value)}
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                                    >
+                                        <option value="">Seleccione un Horario</option>
+                                        {schedule.map((hour) => (
+                                            <option key={hour.id} value={hour.id}>{hour.name}</option>
+                                        ))}
+                                    </select>
+                                    {errors.schedule_id && <div className="text-red-500 text-xs mt-1">{errors.schedule_id}</div>}
                                 </div>
                                 <div>
                                     <label htmlFor="position" className="block text-sm font-medium text-gray-700">Cargo</label>

@@ -16,6 +16,12 @@ interface Department {
     description: string;
 }
 
+interface Schedule {
+    id: number;
+    name: string;
+    tardy_tolerance_minutes: string;
+}
+
 interface Employee {
     id: number;
     employee_id: string; // Ej: EMP-001
@@ -25,9 +31,11 @@ interface Employee {
     phone: string | null;
     hire_date: string; // Formato de fecha
     department_id: number;
+    schedule_id: number,
     position: string | null;
     status: 'active' | 'inactive' | 'terminated';
-    department: Department; // Relación cargada
+    department: Department;
+    schedule: Schedule;
 }
 
 interface PaginationData<T> {
@@ -56,6 +64,7 @@ interface EmployeeData {
     employee_id: string;
     hire_date: string;
     department_id: number;
+    schedule_id: number,
     position: string | null;
     phone: string | null;
     status: 'active' | 'inactive' | 'terminated';
@@ -64,6 +73,7 @@ interface EmployeeData {
 interface EmployeeEditProps {
     employee: EmployeeData;
     departments: Department[];
+    schedule: Schedule[]
 }
 
 interface Link {
