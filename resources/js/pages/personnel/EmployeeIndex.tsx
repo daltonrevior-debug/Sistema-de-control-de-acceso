@@ -3,6 +3,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/layouts/app-layout';
 import { EmployeeIndexProps, Employee, PaginationData } from '@/types/global';
 import { type BreadcrumbItem } from '@/types';
+import { AiFillPlusCircle } from "react-icons/ai"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -42,9 +43,9 @@ const EmployeeIndex: React.FC<EmployeeIndexProps> = ({ employees, filters }) => 
                         </h3>
                         <Link
                             href={route('personnel.employees.create')}
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150"
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150 flex items-center justify-center gap-2"
                         >
-                            ➕ Añadir Empleado
+                            <AiFillPlusCircle size={"1.3rem"} color='white' /> Añadir Empleado
                         </Link>
                     </div>
 
