@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/layouts/app-layout';
 import { Trash2, Edit, Briefcase } from 'lucide-react';
 import { PaginatedData, PageProps, Department } from '@/types/global';
 import { type BreadcrumbItem } from '@/types';
+import { AiFillPlusCircle } from "react-icons/ai"
 
 interface DepartmentIndexProps extends PageProps {
     departments: PaginatedData<Department>; 
@@ -35,9 +36,9 @@ const DepartmentIndex: React.FC<DepartmentIndexProps> = ({ departments }) => {
                                 <h3 className="text-xl font-bold text-gray-800 flex items-center"><Briefcase className="w-5 h-5 mr-2" /> Gestión de Departamentos</h3>
                                 <Link 
                                     href={route('config.departments.create')} 
-                                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition"
+                                    className="justify-center gap-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition"
                                 >
-                                    Crear Departamento
+                                    <AiFillPlusCircle size={"1.3rem"} color='white' /> Crear Departamento
                                 </Link>
                             </div>
 
