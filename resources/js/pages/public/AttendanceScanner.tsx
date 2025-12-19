@@ -24,10 +24,12 @@ const AttendanceScanner: React.FC = () => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const requestRef = useRef<number | null>(null);
+    const isProcessing = useRef<boolean>(false);
 
     const handleMark = (employeeId: string) => {
-        if (loading) return;
+        if (isProcessing.current || loading) return;
 
+        isProcessing.current = true;
         setLoading(true);
         setStatus(null);
         setMessage('');
@@ -42,20 +44,25 @@ const AttendanceScanner: React.FC = () => {
                 const flashMessages = (page.props.flash as FlashMessages) || {};
                 setMessage(flashMessages.success || 'Marcaje procesado exitosamente.');
                 setStatus('success');
-                setLoading(false);
-                
+
                 setTimeout(() => {
                     setScanResult('');
                     setStatus(null);
                     setMessage('');
+                    setLoading(false);
+                    isProcessing.current = false;
                 }, 4000);
             },
             onError: (errors: any) => {
-                const errorMessage = errors.employee_id || errors.error || 'Código no reconocido o error en el sistema.';
+                const errorMessage = errors.employee_id || errors.error || 'Código no reconocido.';
                 setMessage(errorMessage);
                 setStatus('error');
-                setLoading(false);
-                setTimeout(() => setScanResult(''), 2000);
+
+                setTimeout(() => {
+                    setScanResult('');
+                    setLoading(false);
+                    isProcessing.current = false;
+                }, 2000);
             }
         });
     };
@@ -63,23 +70,25 @@ const AttendanceScanner: React.FC = () => {
     const tick = () => {
         const video = videoRef.current;
         const canvas = canvasRef.current;
-        
+
         if (video && canvas && video.readyState === video.HAVE_ENOUGH_DATA) {
             const context = canvas.getContext('2d', { willReadFrequently: true });
             if (context) {
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
-                
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                
-                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                const code = jsQR(imageData.data, imageData.width, imageData.height, {
-                    inversionAttempts: "dontInvert",
-                });
 
-                if (code && !scanResult && !loading) {
-                    setScanResult(code.data);
-                    handleMark(code.data);
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                if (!isProcessing.current) {
+                    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                    const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                        inversionAttempts: "dontInvert",
+                    });
+
+                    if (code && code.data) {
+                        setScanResult(code.data);
+                        handleMark(code.data);
+                    }
                 }
             }
         }
@@ -90,17 +99,17 @@ const AttendanceScanner: React.FC = () => {
         const startCamera = async () => {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { 
+                    video: {
                         facingMode: "environment",
                         width: { ideal: 1280 },
                         height: { ideal: 720 }
                     }
                 });
-                
+
                 if (videoRef.current) {
                     videoRef.current.srcObject = stream;
-                    videoRef.current.setAttribute("playsinline", "true"); 
-                    videoRef.current.muted = true; 
+                    videoRef.current.setAttribute("playsinline", "true");
+                    videoRef.current.muted = true;
                     videoRef.current.onloadedmetadata = async () => {
                         try {
                             await videoRef.current?.play();
@@ -132,11 +141,11 @@ const AttendanceScanner: React.FC = () => {
     return (
         <>
             <Head title="Terminal de Marcaje QR" />
-            
+
             <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 font-sans text-slate-900">
-                
+
                 <div className="w-full max-w-md bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col items-center p-8 relative">
-                    
+
                     <div className="flex items-center gap-3 mb-8">
                         <div className="bg-indigo-600 p-2.5 rounded-2xl shadow-lg shadow-indigo-200">
                             <QrCode className="w-6 h-6 text-white" />
@@ -145,12 +154,12 @@ const AttendanceScanner: React.FC = () => {
                     </div>
 
                     <div className="relative w-full aspect-square rounded-[2.5rem] overflow-hidden bg-slate-900 shadow-inner ring-8 ring-slate-50">
-                        
+
                         <video
                             ref={videoRef}
                             className={`w-full h-full object-cover transition-opacity duration-1000 ${cameraReady ? 'opacity-100' : 'opacity-0'}`}
                         />
-                        
+
                         <canvas ref={canvasRef} className="hidden" />
 
                         <div className="absolute inset-0 pointer-events-none">
@@ -198,11 +207,10 @@ const AttendanceScanner: React.FC = () => {
                         )}
 
                         {status && (
-                            <div className={`w-full p-5 rounded-[1.5rem] flex items-center gap-4 transition-all duration-500 scale-100 animate-in zoom-in ${
-                                status === 'success' 
-                                ? 'bg-emerald-50 text-emerald-900 border border-emerald-100 shadow-lg shadow-emerald-100/50' 
+                            <div className={`w-full p-5 rounded-[1.5rem] flex items-center gap-4 transition-all duration-500 scale-100 animate-in zoom-in ${status === 'success'
+                                ? 'bg-emerald-50 text-emerald-900 border border-emerald-100 shadow-lg shadow-emerald-100/50'
                                 : 'bg-rose-50 text-rose-900 border border-rose-100 shadow-lg shadow-rose-100/50'
-                            }`}>
+                                }`}>
                                 <div className={`p-3 rounded-2xl shrink-0 ${status === 'success' ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'}`}>
                                     {status === 'success' ? <CheckCircle className="w-6 h-6" /> : <AlertCircle className="w-6 h-6" />}
                                 </div>
