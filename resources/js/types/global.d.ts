@@ -26,8 +26,8 @@ interface Employee {
     id: number;
     employee_id: string; // Ej: EMP-001
     first_name: string,
-    last_name : string,
-    personal_email : string,
+    last_name: string,
+    personal_email: string,
     phone: string | null;
     hire_date: string; // Formato de fecha
     department_id: number;
@@ -68,6 +68,8 @@ interface EmployeeData {
     position: string | null;
     phone: string | null;
     status: 'active' | 'inactive' | 'terminated';
+    department: Department;
+    schedule: Schedule;
 }
 
 interface EmployeeEditProps {
@@ -157,7 +159,7 @@ export interface PaginationLink {
 // Define la estructura de datos paginados de Laravel, usando T como un tipo genérico
 export interface PaginatedData<T> {
     current_page: number;
-    data: T[]; 
+    data: T[];
     first_page_url: string;
     from: number;
     last_page: number;
