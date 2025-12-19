@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Clock, Download, Search, User } from 'lucide-react';
+import { Download, Search, User } from 'lucide-react';
 import Pagination from '@/components/Pagination';
 import { PaginatedData } from '@/types/global';
 
 interface AttendanceRecord {
     id: number;
-    employeeName: string; // Cambiado a employeeName
+    employeeName: string;
     date: string;
     checkIn: string;
     checkOut: string;
@@ -51,7 +51,6 @@ const AttendanceDetail: React.FC<AttendanceDetailProps> = ({ records, employees,
     };
 
     const applyFilters = () => {
-        // Ejecutar la petición GET con los filtros
         router.get(route('reports.attendance-detail'), filterData, {
             preserveState: true,
             replace: true,
@@ -71,49 +70,69 @@ const AttendanceDetail: React.FC<AttendanceDetailProps> = ({ records, employees,
                         </button>
                     </div>
 
-                    {/* Área de Filtros (con state) */}
-                    <div className="bg-white p-6 rounded-lg shadow-md mb-8 grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-                        <div className="col-span-1">
-                            <label className="block text-sm font-medium text-gray-700">Empleado:</label>
-                            <select
-                                name="employee_id"
-                                value={filterData.employee_id}
-                                onChange={handleFilterChange}
-                                className="mt-1 block w-full border-gray-300 rounded-md text-sm"
-                            >
-                                <option value="">Todos</option>
-                                {employees.map(emp => (
-                                    <option key={emp.id} value={emp.id}>{emp.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="col-span-1">
-                            <label className="block text-sm font-medium text-gray-700">Fecha Desde:</label>
-                            <input
-                                type="date"
-                                name="start_date"
-                                value={filterData.start_date}
-                                onChange={handleFilterChange}
-                                className="mt-1 block w-full border-gray-300 rounded-md text-sm"
-                            />
-                        </div>
-                        <div className="col-span-1">
-                            <label className="block text-sm font-medium text-gray-700">Fecha Hasta:</label>
-                            <input
-                                type="date"
-                                name="end_date"
-                                value={filterData.end_date}
-                                onChange={handleFilterChange}
-                                className="mt-1 block w-full border-gray-300 rounded-md text-sm"
-                            />
-                        </div>
-                        <div className="col-span-1 flex items-end h-full pt-6">
-                            <button
-                                onClick={applyFilters}
-                                className="w-full flex justify-center items-center px-4 py-2 bg-indigo-600 text-white rounded-md text-sm hover:bg-indigo-700"
-                            >
-                                <Search className="w-4 h-4 mr-1" /> Buscar
-                            </button>
+                    <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-8">
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+
+                            <div className="space-y-1">
+                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">
+                                    Empleado
+                                </label>
+                                <div className="relative">
+                                    <select
+                                        name="employee_id"
+                                        value={filterData.employee_id}
+                                        onChange={handleFilterChange}
+                                        className="block w-full pl-3 pr-10 py-2.5 text-sm border-gray-300 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 rounded-lg transition duration-200 outline-none appearance-none bg-white"
+                                    >
+                                        <option value="">Todos los empleados</option>
+                                        {employees.map(emp => (
+                                            <option key={emp.id} value={emp.id}>{emp.name}</option>
+                                        ))}
+                                    </select>
+                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                                        <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="space-y-1">
+                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">
+                                    Fecha Desde
+                                </label>
+                                <input
+                                    type="date"
+                                    name="start_date"
+                                    value={filterData.start_date}
+                                    onChange={handleFilterChange}
+                                    className="block w-full px-3 py-2.5 text-sm border-gray-300 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 rounded-lg transition duration-200 outline-none"
+                                />
+                            </div>
+
+                            <div className="space-y-1">
+                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">
+                                    Fecha Hasta
+                                </label>
+                                <input
+                                    type="date"
+                                    name="end_date"
+                                    value={filterData.end_date}
+                                    onChange={handleFilterChange}
+                                    className="block w-full px-3 py-2.5 text-sm border-gray-300 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 rounded-lg transition duration-200 outline-none"
+                                />
+                            </div>
+
+                            <div>
+                                <button
+                                    onClick={applyFilters}
+                                    className="w-full flex justify-center items-center gap-2 px-6 py-2.5 bg-indigo-600 text-white font-bold rounded-lg text-sm hover:bg-indigo-700 shadow-md hover:shadow-indigo-100 transform active:scale-95 transition duration-200"
+                                >
+                                    <Search className="w-4 h-4" />
+                                    Buscar
+                                </button>
+                            </div>
+
                         </div>
                     </div>
 
@@ -145,9 +164,7 @@ const AttendanceDetail: React.FC<AttendanceDetailProps> = ({ records, employees,
                                     </tbody>
                                 </table>
                             </div>
-
-                            {/* Paginación */}
-                            {/* Asume que tienes un componente Pagination para manejar records.links */}
+                            
                             <div className="mt-4">
                                 <Pagination links={records.links} />
                             </div>
