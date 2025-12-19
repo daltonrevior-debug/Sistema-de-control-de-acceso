@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/layouts/app-layout';
 import { Trash2, Edit, XCircle, CheckCircle } from 'lucide-react';
 import { PaginatedData, PageProps, AbsenceType } from '@/types/global';
 import { type BreadcrumbItem } from '@/types';
+import { AiFillPlusCircle } from "react-icons/ai"
 
 interface AbsenceTypeIndexProps extends PageProps {
     types: PaginatedData<AbsenceType>;
@@ -35,9 +36,9 @@ const AbsenceTypeIndex: React.FC<AbsenceTypeIndexProps> = ({ types }) => {
                                 <h3 className="text-xl font-bold text-gray-800">Tipos de Ausencia</h3>
                                 <Link 
                                     href={route('config.absence-types.create')} 
-                                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition"
+                                    className="justify-center gap-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition"
                                 >
-                                    Crear Tipo
+                                    <AiFillPlusCircle size={"1.3rem"} color='white' /> Crear Tipo
                                 </Link>
                             </div>
 
