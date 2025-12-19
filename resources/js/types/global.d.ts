@@ -54,6 +54,7 @@ interface EmployeeIndexProps {
 
 interface EmployeeCreateProps {
     departments: Department[];
+    schedule: Schedule[]
 }
 
 interface EmployeeData {

@@ -9,32 +9,26 @@ const breadcrumbs: BreadcrumbItem[] = [
         title: 'Personal',
         href: '/dashboard',
     },
-        {
+    {
         title: 'Lista de Empleados',
         href: '/dashboard',
     }
 ];
 
-const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments }) => {
-    // ------------------------------------
-    // 1. Manejo del estado del formulario con Inertia useForm
-    // ------------------------------------
+const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments, schedule }) => {
+
     const { data, setData, post, processing, errors } = useForm({
         first_name: '',
         last_name: '',
         personal_email: '',
-
-        // Campos para la tabla 'employees'
         employee_id: '',
         hire_date: '',
         department_id: '',
+        schedule_id: '',
         position: '',
         phone: '',
     });
 
-    // ------------------------------------
-    // 2. Función de envío (Submission)
-    // ------------------------------------
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('personnel.employees.store'));
@@ -94,7 +88,7 @@ const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments }) => {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label htmlFor="employee_id" className="block text-sm font-medium text-gray-700">ID de Empleado</label>
+                                    <label htmlFor="employee_id" className="block text-sm font-medium text-gray-700">ID del Empleado</label>
                                     <input
                                         id="employee_id"
                                         type="text"
@@ -132,6 +126,21 @@ const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments }) => {
                                         ))}
                                     </select>
                                     {errors.department_id && <div className="text-red-500 text-xs mt-1">{errors.department_id}</div>}
+                                </div>
+                                <div>
+                                    <label htmlFor="schedule_id" className="block text-sm font-medium text-gray-700">Horario</label>
+                                    <select
+                                        id="schedule_id"
+                                        value={data.schedule_id}
+                                        onChange={(e) => setData('schedule_id', e.target.value)}
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                                    >
+                                        <option value="">Seleccione un Horario</option>
+                                        {schedule.map((hour) => (
+                                            <option key={hour.id} value={hour.id}>{hour.name}</option>
+                                        ))}
+                                    </select>
+                                    {errors.schedule_id && <div className="text-red-500 text-xs mt-1">{errors.schedule_id}</div>}
                                 </div>
                                 <div>
                                     <label htmlFor="position" className="block text-sm font-medium text-gray-700">Cargo</label>
