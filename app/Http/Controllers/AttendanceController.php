@@ -134,26 +134,20 @@ class AttendanceController extends Controller
         //     return back()->with('error', 'No se pudo identificar al empleado.');
         // }
 
-        // --- Filtros ---
-        // Rango de fechas: Por defecto, los últimos 30 días
         $startDate = $request->input('start_date', Carbon::now()->subDays(30)->toDateString());
         $endDate = $request->input('end_date', Carbon::now()->toDateString());
         
-        // --- Consulta de Datos ---
         $attendances = AttendanceRecord::whereDate('check_in_time', '>=', $startDate)
             ->whereDate('check_in_time', '<=', $endDate)
             ->whereNotNull('check_out_time')
             ->orderByDesc('check_in_time')
             ->get();
             
-        // --- Formateo y Cálculo de Horas ---
-        // Usamos una colección para mapear y calcular la duración de la jornada
         $historyData = $attendances->map(function ($attendance) {
             
-            $checkIn = Carbon::parse($attendance->check_in_at);
+            $checkIn = Carbon::parse($attendance->check_in_time);
             $checkOut = Carbon::parse($attendance->check_out_time);
             
-            // Calcula la duración total de la jornada
             $duration = $checkIn->diff($checkOut);
             
             return [
@@ -161,7 +155,7 @@ class AttendanceController extends Controller
                 'date' => $checkIn->toDateString(),
                 'check_in' => $checkIn->format('H:i:s'),
                 'check_out' => $checkOut->format('H:i:s'),
-                'status' => $attendance->status, // Normal, tardy, etc.
+                'status' => $attendance->status,
                 'total_time' => sprintf('%dh %dm', $duration->h, $duration->i),
             ];
         });
