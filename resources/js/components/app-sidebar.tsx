@@ -33,11 +33,6 @@ const mainNavItems: NavItem[] = [
         icon: ListCheck,
         children: [
             {
-                title: 'Marcaje Diario',
-                href: route('attendance.index'),
-                icon: Clock,
-            },
-            {
                 title: 'Historial',
                 href: route('attendance.history'),
                 icon: ListCheck,

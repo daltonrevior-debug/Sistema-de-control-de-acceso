@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/layouts/app-layout';
 import { Trash2, Edit } from 'lucide-react';
 import { PaginatedData, PageProps } from '@/types/global';
 import { type BreadcrumbItem } from '@/types';
+import { AiFillPlusCircle } from "react-icons/ai"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -47,9 +48,9 @@ const ScheduleIndex: React.FC<ScheduleIndexProps> = ({ schedules }) => {
                         </h3>
                         <Link
                             href={route('config.schedules.create')}
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150"
+                            className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150"
                         >
-                            ➕ Crear Horario
+                            <AiFillPlusCircle size={"1.3rem"} color='white' /> Crear Horario
                         </Link>
                     </div>
 

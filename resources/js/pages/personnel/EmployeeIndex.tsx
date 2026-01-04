@@ -3,6 +3,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/layouts/app-layout';
 import { EmployeeIndexProps, Employee, PaginationData } from '@/types/global';
 import { type BreadcrumbItem } from '@/types';
+import { AiFillPlusCircle } from "react-icons/ai"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -42,9 +43,9 @@ const EmployeeIndex: React.FC<EmployeeIndexProps> = ({ employees, filters }) => 
                         </h3>
                         <Link
                             href={route('personnel.employees.create')}
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150"
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150 flex items-center justify-center gap-2"
                         >
-                            ➕ Añadir Empleado
+                            <AiFillPlusCircle size={"1.3rem"} color='white' /> Añadir Empleado
                         </Link>
                     </div>
 
@@ -53,10 +54,11 @@ const EmployeeIndex: React.FC<EmployeeIndexProps> = ({ employees, filters }) => 
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead>
                                     <tr className="text-xs font-semibold uppercase tracking-wider text-gray-600 bg-gray-50">
-                                        <th className="p-4 text-left">ID Empresa</th>
+                                        <th className="p-4 text-left">ID Empleado</th>
                                         <th className="p-4 text-left">Nombre</th>
                                         <th className="p-4 text-left">Email</th>
                                         <th className="p-4 text-left">Departamento</th>
+                                        <th className="p-4 text-left">Horario</th>
                                         <th className="p-4 text-center">Estado</th>
                                         <th className="p-4 text-center">Acciones</th>
                                     </tr>
@@ -68,6 +70,7 @@ const EmployeeIndex: React.FC<EmployeeIndexProps> = ({ employees, filters }) => 
                                             <td className="p-4 whitespace-nowrap font-medium text-gray-900">{employee.first_name}</td>
                                             <td className="p-4 whitespace-nowrap text-gray-600">{employee.personal_email}</td>
                                             <td className="p-4 whitespace-nowrap">{employee.department.name}</td>
+                                            <td className="p-4 whitespace-nowrap">{employee?.schedule?.name}</td>
                                             <td className="p-4 whitespace-nowrap text-center">
                                                 <span
                                                     className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full capitalize ${getStatusBadgeClass(employee.status)}`}

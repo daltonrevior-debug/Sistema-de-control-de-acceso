@@ -5,8 +5,13 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Redirect::route('login');
+    return Inertia::render('welcome');
 })->name('home');
+
+Route::prefix('public/attendance')->name('public.attendance.')->controller(\App\Http\Controllers\PublicAttendanceController::class)->group(function () {
+    Route::get('/scanner', 'scanner')->name('scanner'); 
+    Route::post('/mark', 'mark')->name('mark');
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {

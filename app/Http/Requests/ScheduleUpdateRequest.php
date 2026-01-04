@@ -21,8 +21,12 @@ class ScheduleUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $scheduleId = $this->route('schedule');
+
+        $id = $scheduleId instanceof \App\Models\Schedule ? $scheduleId->id : $scheduleId;
+
         return [
-            'name' => ['required', 'string', 'max:100', \Illuminate\Validation\Rule::unique('schedules', 'name')->ignore($scheduleId)],
+            'name' => ['required', 'string', 'max:100', \Illuminate\Validation\Rule::unique('schedules', 'name')->ignore($id)],
             'start_time' => ['required', 'date_format:H:i'],
             'end_time' => ['required', 'date_format:H:i', 'after:start_time'],
             'tardy_tolerance_minutes' => ['required', 'integer', 'min:0', 'max:60'],

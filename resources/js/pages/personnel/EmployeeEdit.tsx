@@ -1,10 +1,9 @@
-// resources/js/Pages/Personnel/EmployeeEdit.tsx
-
 import React from 'react';
 import { Head, Link, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/layouts/app-layout';
 import { EmployeeEditProps, EmployeeData } from '@/types/global';
 import { type BreadcrumbItem } from '@/types';
+import EmployeeBadge from '@/components/EmployeeBadge';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,184 +16,218 @@ const breadcrumbs: BreadcrumbItem[] = [
     }
 ];
 
-const EmployeeEdit: React.FC<EmployeeEditProps> = ({ employee, departments }) => {
+const EmployeeEdit: React.FC<EmployeeEditProps> = ({ employee, departments, schedule }) => {
 
-    // ------------------------------------
-    // 1. Inicialización del formulario con datos existentes
-    // ------------------------------------
-    // IMPORTANTE: Inicializamos el useForm con los datos del empleado recibido
     const { data, setData, put, processing, errors } = useForm({
-        _method: 'put', // Necesario para simular el método PUT/PATCH en Laravel
+        _method: 'put',
         first_name: employee.first_name,
         last_name: employee.last_name,
         personal_email: employee.personal_email || '',
         employee_id: employee.employee_id,
         hire_date: employee.hire_date,
-        department_id: employee.department_id.toString(), 
+        department_id: employee?.department_id?.toString(),
+        schedule_id: employee?.schedule_id?.toString(),
         position: employee.position || '',
         phone: employee.phone || '',
         status: employee.status,
     });
 
-    // ------------------------------------
-    // 2. Función de envío (Submission)
-    // ------------------------------------
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Usamos PUT al endpoint de actualización
         put(route('personnel.employees.update', employee.id));
     };
 
     return (
         <AuthenticatedLayout breadcrumbs={breadcrumbs}>
             <Head title={`Editar ${employee.first_name}`} />
+            <div className='grid grid-cols-2'>
 
-            <div className="py-12">
-                <div className="w-full mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white sm:rounded-lg p-8">
+                <div className="py-12 bg-gray-50 min-h-screen">
+                    <div className="max-w-5xl mx-auto sm:px-6 lg:px-8">
+                        <div className="bg-white shadow-sm border border-gray-200 rounded-xl p-8">
+                            <form onSubmit={submit} className="space-y-8">
 
-                        <form onSubmit={submit} className="space-y-6">
-                            <h3 className="text-lg font-medium text-gray-900 border-b pb-2 mb-4">Información de Personal</h3>
+                                {/* SECCIÓN: INFORMACIÓN DE PERSONAL */}
+                                <div>
+                                    <div className="flex items-center gap-2 mb-6">
+                                        <div className="h-8 w-1 bg-indigo-600 rounded-full"></div>
+                                        <h3 className="text-xl font-semibold text-gray-800">Información de Personal</h3>
+                                    </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label htmlFor="first_name" className="block text-sm font-medium text-gray-700">Nombre</label>
-                                    <input
-                                        id="first_name"
-                                        type="text"
-                                        value={data.first_name}
-                                        onChange={(e) => setData('first_name', e.target.value)}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
-                                    />
-                                    {errors.first_name && <div className="text-red-500 text-xs mt-1">{errors.first_name}</div>}
-                                </div>
-                                <div>
-                                    <label htmlFor="last_name" className="block text-sm font-medium text-gray-700">Apellido</label>
-                                    <input
-                                        id="last_name"
-                                        type="text"
-                                        value={data.last_name}
-                                        onChange={(e) => setData('last_name', e.target.value)}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
-                                    />
-                                    {errors.last_name && <div className="text-red-500 text-xs mt-1">{errors.last_name}</div>}
-                                </div>
-                            </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                        <div className="space-y-1">
+                                            <label htmlFor="first_name" className="text-sm font-semibold text-gray-700 ml-1">Nombre</label>
+                                            <input
+                                                id="first_name"
+                                                type="text"
+                                                value={data.first_name}
+                                                onChange={(e) => setData('first_name', e.target.value)}
+                                                className={`block w-full px-4 py-3 rounded-lg border ${errors.first_name ? 'border-red-400' : 'border-gray-300'} focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 outline-none`}
+                                            />
+                                            {errors.first_name && <p className="text-red-500 text-xs mt-1 italic">{errors.first_name}</p>}
+                                        </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label htmlFor="personal_email" className="block text-sm font-medium text-gray-700">Email Personal</label>
-                                    <input
-                                        id="personal_email"
-                                        type="email"
-                                        value={data.personal_email}
-                                        onChange={(e) => setData('personal_email', e.target.value)}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
-                                    />
-                                    {errors.personal_email && <div className="text-red-500 text-xs mt-1">{errors.personal_email}</div>}
-                                </div>
-                                <div>
-                                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Teléfono</label>
-                                    <input
-                                        id="phone"
-                                        type="text"
-                                        value={data.phone}
-                                        onChange={(e) => setData('phone', e.target.value)}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
-                                    />
-                                    {errors.department_id && <div className="text-red-500 text-xs mt-1">{errors.department_id}</div>}
-                                </div>
-                            </div>
+                                        <div className="space-y-1">
+                                            <label htmlFor="last_name" className="text-sm font-semibold text-gray-700 ml-1">Apellido</label>
+                                            <input
+                                                id="last_name"
+                                                type="text"
+                                                value={data.last_name}
+                                                onChange={(e) => setData('last_name', e.target.value)}
+                                                className={`block w-full px-4 py-3 rounded-lg border ${errors.last_name ? 'border-red-400' : 'border-gray-300'} focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 outline-none`}
+                                            />
+                                            {errors.last_name && <p className="text-red-500 text-xs mt-1 italic">{errors.last_name}</p>}
+                                        </div>
 
-                            <h3 className="text-lg font-medium text-gray-900 border-b pb-2 mb-4 pt-6">Información Laboral</h3>
+                                        <div className="space-y-1">
+                                            <label htmlFor="personal_email" className="text-sm font-semibold text-gray-700 ml-1">Email Personal</label>
+                                            <input
+                                                id="personal_email"
+                                                type="email"
+                                                value={data.personal_email}
+                                                onChange={(e) => setData('personal_email', e.target.value)}
+                                                className={`block w-full px-4 py-3 rounded-lg border ${errors.personal_email ? 'border-red-400' : 'border-gray-300'} focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 outline-none`}
+                                            />
+                                            {errors.personal_email && <p className="text-red-500 text-xs mt-1 italic">{errors.personal_email}</p>}
+                                        </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div>
-                                    <label htmlFor="employee_id" className="block text-sm font-medium text-gray-700">ID de Empleado</label>
-                                    <input
-                                        id="employee_id"
-                                        type="text"
-                                        value={data.employee_id}
-                                        onChange={(e) => setData('employee_id', e.target.value)}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
-                                    />
-                                    {errors.employee_id && <div className="text-red-500 text-xs mt-1">{errors.employee_id}</div>}
+                                        <div className="space-y-1">
+                                            <label htmlFor="phone" className="text-sm font-semibold text-gray-700 ml-1">Teléfono</label>
+                                            <input
+                                                id="phone"
+                                                type="text"
+                                                value={data.phone}
+                                                onChange={(e) => setData('phone', e.target.value)}
+                                                className={`block w-full px-4 py-3 rounded-lg border ${errors.phone ? 'border-red-400' : 'border-gray-300'} focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 outline-none`}
+                                            />
+                                            {errors.phone && <p className="text-red-500 text-xs mt-1 italic">{errors.phone}</p>}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label htmlFor="hire_date" className="block text-sm font-medium text-gray-700">Fecha de Contratación</label>
-                                    <input
-                                        id="hire_date"
-                                        type="date"
-                                        value={data.hire_date}
-                                        onChange={(e) => setData('hire_date', e.target.value)}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
-                                    />
-                                    {errors.hire_date && <div className="text-red-500 text-xs mt-1">{errors.hire_date}</div>}
+
+                                {/* SECCIÓN: INFORMACIÓN LABORAL */}
+                                <div className="pt-6 border-t border-gray-100">
+                                    <div className="flex items-center gap-2 mb-6">
+                                        <div className="h-8 w-1 bg-emerald-500 rounded-full"></div>
+                                        <h3 className="text-xl font-semibold text-gray-800">Información Laboral</h3>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <div className="space-y-1">
+                                            <label htmlFor="employee_id" className="text-sm font-semibold text-gray-700 ml-1">ID de Empleado</label>
+                                            <input
+                                                id="employee_id"
+                                                type="text"
+                                                value={data.employee_id}
+                                                onChange={(e) => setData('employee_id', e.target.value)}
+                                                className="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 transition duration-200 outline-none"
+                                            />
+                                            {errors.employee_id && <p className="text-red-500 text-xs mt-1">{errors.employee_id}</p>}
+                                        </div>
+
+                                        <div className="space-y-1">
+                                            <label htmlFor="hire_date" className="text-sm font-semibold text-gray-700 ml-1">Fecha de Contratación</label>
+                                            <input
+                                                id="hire_date"
+                                                type="date"
+                                                value={data.hire_date}
+                                                onChange={(e) => setData('hire_date', e.target.value)}
+                                                className="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 transition duration-200 outline-none"
+                                            />
+                                            {errors.hire_date && <p className="text-red-500 text-xs mt-1">{errors.hire_date}</p>}
+                                        </div>
+
+                                        <div className="space-y-1">
+                                            <label htmlFor="status" className="text-sm font-semibold text-gray-700 ml-1">Estado</label>
+                                            <select
+                                                id="status"
+                                                value={data.status}
+                                                onChange={(e) => setData('status', e.target.value as EmployeeData["status"])}
+                                                className="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 transition duration-200 outline-none bg-white"
+                                            >
+                                                <option value="active">Activo</option>
+                                                <option value="inactive">Inactivo</option>
+                                                <option value="terminated">Terminado</option>
+                                            </select>
+                                            {errors.status && <p className="text-red-500 text-xs mt-1">{errors.status}</p>}
+                                        </div>
+                                    </div>
+
+                                    {/* Fila inferior: Depto, Horario y Cargo */}
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                                        <div className="space-y-1">
+                                            <label htmlFor="department_id" className="text-sm font-semibold text-gray-700 ml-1">Departamento</label>
+                                            <select
+                                                id="department_id"
+                                                value={data.department_id}
+                                                onChange={(e) => setData('department_id', e.target.value)}
+                                                className="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 transition duration-200 outline-none bg-white"
+                                            >
+                                                <option value="">Seleccione un Departamento</option>
+                                                {departments.map((dept) => (
+                                                    <option key={dept.id} value={dept.id}>{dept.name}</option>
+                                                ))}
+                                            </select>
+                                            {errors.department_id && <p className="text-red-500 text-xs mt-1">{errors.department_id}</p>}
+                                        </div>
+
+                                        <div className="space-y-1">
+                                            <label htmlFor="schedule_id" className="text-sm font-semibold text-gray-700 ml-1">Horario</label>
+                                            <select
+                                                id="schedule_id"
+                                                value={data.schedule_id}
+                                                onChange={(e) => setData('schedule_id', e.target.value)}
+                                                className="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 transition duration-200 outline-none bg-white"
+                                            >
+                                                <option value="">Seleccione un Horario</option>
+                                                {schedule.map((hour) => (
+                                                    <option key={hour.id} value={hour.id}>{hour.name}</option>
+                                                ))}
+                                            </select>
+                                            {errors.schedule_id && <p className="text-red-500 text-xs mt-1">{errors.schedule_id}</p>}
+                                        </div>
+
+                                        <div className="space-y-1">
+                                            <label htmlFor="position" className="text-sm font-semibold text-gray-700 ml-1">Cargo</label>
+                                            <input
+                                                id="position"
+                                                type="text"
+                                                value={data.position}
+                                                onChange={(e) => setData('position', e.target.value)}
+                                                className="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 transition duration-200 outline-none"
+                                            />
+                                            {errors.position && <p className="text-red-500 text-xs mt-1">{errors.position}</p>}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label htmlFor="status" className="block text-sm font-medium text-gray-700">Estado</label>
-                                    <select
-                                        id="status"
-                                        value={data.status}
-                                        onChange={(e) => setData('status', e.target.value as EmployeeData['status'])}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+
+                                {/* BOTONES DE ACCIÓN */}
+                                <div className="flex items-center justify-end mt-10 pt-6 border-t border-gray-100 gap-4">
+                                    <Link
+                                        href={route('personnel.employees.index')}
+                                        className="px-6 py-3 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition duration-200"
                                     >
-                                        <option value="active">Activo</option>
-                                        <option value="inactive">Inactivo</option>
-                                        <option value="terminated">Terminado</option>
-                                    </select>
-                                    {errors.status && <div className="text-red-500 text-xs mt-1">{errors.status}</div>}
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label htmlFor="department_id" className="block text-sm font-medium text-gray-700">Departamento</label>
-                                    <select
-                                        id="department_id"
-                                        value={data.department_id}
-                                        onChange={(e) => setData('department_id', e.target.value)}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+                                        Cancelar
+                                    </Link>
+                                    <button
+                                        type="submit"
+                                        disabled={processing}
+                                        className={`px-8 py-3 text-white font-bold rounded-lg shadow-lg transform active:scale-95 transition duration-200 ${processing
+                                                ? 'bg-gray-400 cursor-not-allowed'
+                                                : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-indigo-100'
+                                            }`}
                                     >
-                                        <option value="">Seleccione un Departamento</option>
-                                        {departments.map((dept) => (
-                                            <option key={dept.id} value={dept.id}>{dept.name}</option>
-                                        ))}
-                                    </select>
-                                    {errors.department_id && <div className="text-red-500 text-xs mt-1">{errors.department_id}</div>}
+                                        {processing ? 'Actualizando...' : 'Guardar Cambios'}
+                                    </button>
                                 </div>
-                                <div>
-                                    <label htmlFor="position" className="block text-sm font-medium text-gray-700">Cargo</label>
-                                    <input
-                                        id="position"
-                                        type="text"
-                                        value={data.position}
-                                        onChange={(e) => setData('position', e.target.value)}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
-                                    />
-                                    {errors.position && <div className="text-red-500 text-xs mt-1">{errors.position}</div>}
-                                </div>
-                            </div>
-
-                            <div className="flex items-center justify-end mt-8 border-t pt-4">
-                                <Link
-                                    href={route('personnel.employees.index')}
-                                    className="text-gray-600 hover:text-gray-900 mr-4"
-                                >
-                                    Cancelar
-                                </Link>
-                                <button
-                                    type="submit"
-                                    disabled={processing}
-                                    className={`px-4 py-2 text-white font-semibold rounded-lg shadow-md transition duration-150 ${processing ? 'bg-gray-400' : 'bg-indigo-600 hover:bg-indigo-700'}`}
-                                >
-                                    {processing ? 'Actualizando...' : 'Guardar Cambios'}
-                                </button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
+
+                <EmployeeBadge employee={employee} />
             </div>
+
         </AuthenticatedLayout>
     );
 };

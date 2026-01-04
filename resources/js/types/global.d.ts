@@ -16,18 +16,26 @@ interface Department {
     description: string;
 }
 
+interface Schedule {
+    id: number;
+    name: string;
+    tardy_tolerance_minutes: string;
+}
+
 interface Employee {
     id: number;
     employee_id: string; // Ej: EMP-001
     first_name: string,
-    last_name : string,
-    personal_email : string,
+    last_name: string,
+    personal_email: string,
     phone: string | null;
     hire_date: string; // Formato de fecha
     department_id: number;
+    schedule_id: number,
     position: string | null;
     status: 'active' | 'inactive' | 'terminated';
-    department: Department; // Relación cargada
+    department: Department;
+    schedule: Schedule;
 }
 
 interface PaginationData<T> {
@@ -46,6 +54,7 @@ interface EmployeeIndexProps {
 
 interface EmployeeCreateProps {
     departments: Department[];
+    schedule: Schedule[]
 }
 
 interface EmployeeData {
@@ -56,14 +65,18 @@ interface EmployeeData {
     employee_id: string;
     hire_date: string;
     department_id: number;
+    schedule_id: number,
     position: string | null;
     phone: string | null;
     status: 'active' | 'inactive' | 'terminated';
+    department: Department;
+    schedule: Schedule;
 }
 
 interface EmployeeEditProps {
     employee: EmployeeData;
     departments: Department[];
+    schedule: Schedule[]
 }
 
 interface Link {
@@ -147,7 +160,7 @@ export interface PaginationLink {
 // Define la estructura de datos paginados de Laravel, usando T como un tipo genérico
 export interface PaginatedData<T> {
     current_page: number;
-    data: T[]; 
+    data: T[];
     first_page_url: string;
     from: number;
     last_page: number;
