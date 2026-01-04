@@ -7,7 +7,7 @@ import { type BreadcrumbItem } from '@/types';
 const AbsenceTypeCreate: React.FC = () => {
     
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Configuración', href: '#' },
+        { title: 'Gestión', href: '#' },
         { title: 'Tipos de Ausencia', href: route('config.absence-types.index') },
         { title: 'Crear', href: '#' },
     ];

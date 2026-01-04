@@ -17,7 +17,7 @@ const AbsenceRequestIndex: React.FC<AbsenceRequestIndexProps> = ({ requests }) =
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Configuración', href: '#' },
+        { title: 'Gestión', href: '#' },
         { title: 'Solicitudes de Ausencia', href: route('config.absence-requests.index') }
     ];
 

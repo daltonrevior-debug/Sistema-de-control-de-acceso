@@ -37,7 +37,7 @@ export default function Register() {    const [showPassword, setShowPassword] = 
             <form className="flex flex-col gap-6" onSubmit={submit}>
                 <div className="grid gap-6">
                     <div className="grid gap-2">
-                        <Label htmlFor="name">Nombre completo</Label>
+                        <Label htmlFor="name">Nombre y apellido</Label>
                         <Input
                             id="name"
                             type="text"
@@ -96,7 +96,7 @@ export default function Register() {    const [showPassword, setShowPassword] = 
                             value={data.password_confirmation}
                             onChange={(e) => setData('password_confirmation', e.target.value)}
                             disabled={processing}
-                            placeholder="Repite la contraseña"
+                            placeholder="Repita la contraseña"
                         />
                         <InputError message={errors.password_confirmation} />
                     </div>

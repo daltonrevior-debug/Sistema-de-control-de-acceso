@@ -12,7 +12,7 @@ interface DepartmentEditProps {
 const DepartmentEdit: React.FC<DepartmentEditProps> = ({ department }) => {
 
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Configuración', href: '#' },
+        { title: 'Gestión', href: '#' },
         { title: 'Departamentos', href: route('config.departments.index') },
         { title: `Editar: ${department.name}`, href: '#' },
     ];

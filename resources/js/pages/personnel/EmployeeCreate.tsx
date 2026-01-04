@@ -78,7 +78,7 @@ const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments }) => {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label htmlFor="personal_email" className="block text-sm font-medium text-gray-700">Correo Electronico</label>
+                                    <label htmlFor="personal_email" className="block text-sm font-medium text-gray-700">Correo Electrónico</label>
                                     <input
                                         id="personal_email"
                                         type="email"

@@ -8,7 +8,7 @@ import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
+        title: 'Inicio',
         href: route('reports.index'),
         icon: LayoutGrid,
     },
@@ -55,7 +55,7 @@ const mainNavItems: NavItem[] = [
         ]
     },
     {
-        title: 'Configuracion',
+        title: 'Gestión',
         icon: Cog,
         children: [
             {
@@ -70,7 +70,7 @@ const mainNavItems: NavItem[] = [
                 icon: Clock,
             },
             {
-                title: 'Tipos de Ausencia',
+                title: 'Tipos de Ausencias',
                 href: route('config.absence-types.index'),
                 icon: ListCheck,
             },
@@ -91,7 +91,7 @@ const mainNavItems: NavItem[] = [
                 icon: Calendar,
             },
             {
-                title: 'Balance Días Libres',
+                title: 'Balance de Días Libres',
                 href: route('reports.leave-balance'),
                 icon: Clock,
             },

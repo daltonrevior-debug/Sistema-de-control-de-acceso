@@ -7,7 +7,7 @@ import { type BreadcrumbItem } from '@/types';
 const DepartmentCreate: React.FC = () => {
     
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Configuración', href: '#' },
+        { title: 'Gestión', href: '#' },
         { title: 'Departamentos', href: route('config.departments.index') },
         { title: 'Crear', href: '#' },
     ];

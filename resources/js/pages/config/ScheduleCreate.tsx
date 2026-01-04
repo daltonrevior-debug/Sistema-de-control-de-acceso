@@ -6,11 +6,11 @@ import { type BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Configuracion',
+        title: 'Gestión',
         href: '/dashboard',
     },
     {
-        title: 'Crear un nuevo horario',
+        title: 'Crear un Nuevo Horario',
         href: '/dashboard',
     }
 ];
