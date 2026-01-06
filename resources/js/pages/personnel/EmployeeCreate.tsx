@@ -49,19 +49,6 @@ const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments, schedule }
                                     <h3 className="text-xl font-semibold text-gray-800">Información de Usuario (Credenciales)</h3>
                                 </div>
 
-<<<<<<< ours
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label htmlFor="personal_email" className="block text-sm font-medium text-gray-700">Correo Electrónico</label>
-                                    <input
-                                        id="personal_email"
-                                        type="email"
-                                        value={data.personal_email}
-                                        onChange={(e) => setData('personal_email', e.target.value)}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
-                                    />
-                                    {errors.personal_email && <div className="text-red-500 text-xs mt-1">{errors.personal_email}</div>}
-=======
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                                     <div className="space-y-1">
                                         <label htmlFor="first_name" className="text-sm font-semibold text-gray-700 ml-1">Nombre</label>
@@ -98,7 +85,6 @@ const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments, schedule }
                                         />
                                         {errors.personal_email && <p className="text-red-500 text-xs mt-1 italic">{errors.personal_email}</p>}
                                     </div>
->>>>>>> theirs
                                 </div>
                             </div>
 
