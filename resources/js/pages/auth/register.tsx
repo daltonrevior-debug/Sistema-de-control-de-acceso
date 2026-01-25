@@ -1,6 +1,8 @@
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler,  useState } from 'react';
+import { FormEventHandler, useState } from 'react';
+/* 1. Importamos los iconos necesarios */
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -16,7 +18,10 @@ type RegisterForm = {
     password_confirmation: string;
 };
 
-export default function Register() {    const [showPassword, setShowPassword] = useState(false);
+export default function Register() {
+    /* 2. Definimos el estado para mostrar/ocultar */
+    const [showPassword, setShowPassword] = useState(false);
+
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         name: '',
         email: '',
@@ -69,11 +74,13 @@ export default function Register() {    const [showPassword, setShowPassword] = 
                         <InputError message={errors.email} />
                     </div>
 
-                    <div className="grid gap-2">
+                    {/* 3. Campo de Contraseña con función de mostrar */}
+                    <div className="grid gap-2 relative">
                         <Label htmlFor="password">Contraseña nueva</Label>
                         <Input
                             id="password"
-                            type="password"
+                            /* Cambia dinámicamente entre text y password */
+                            type={showPassword ? "text" : "password"}
                             required
                             tabIndex={3}
                             autoComplete="new-password"
@@ -82,14 +89,22 @@ export default function Register() {    const [showPassword, setShowPassword] = 
                             disabled={processing}
                             placeholder="Mínimo de 8 caracteres"
                         />
-                         <InputError message={errors.password} />
+                        {/* Icono posicionado absolutamente */}
+                        <div 
+                            className='absolute right-5 bottom-2.5 cursor-pointer text-gray-500' 
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+                        </div>
+                        <InputError message={errors.password} />
                     </div>
 
-                    <div className="grid gap-2">
+                    {/* 4. Campo de Confirmación (usa el mismo estado showPassword) */}
+                    <div className="grid gap-2 relative">
                         <Label htmlFor="password_confirmation">Confirmar contraseña</Label>
                         <Input
                             id="password_confirmation"
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             required
                             tabIndex={4}
                             autoComplete="new-password"
@@ -98,6 +113,12 @@ export default function Register() {    const [showPassword, setShowPassword] = 
                             disabled={processing}
                             placeholder="Repita la contraseña"
                         />
+                        <div 
+                            className='absolute right-5 bottom-2.5 cursor-pointer text-gray-500' 
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+                        </div>
                         <InputError message={errors.password_confirmation} />
                     </div>
 
