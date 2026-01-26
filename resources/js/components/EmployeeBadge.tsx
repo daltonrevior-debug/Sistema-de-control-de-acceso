@@ -30,7 +30,7 @@ const EmployeeBadge: React.FC<{ employee: EmployeeData }> = ({ employee }) => {
       >
 
         <div className="h-24 bg-gradient-to-br from-blue-600 to-indigo-700 p-4 flex justify-center items-start">
-          <span className="text-white/20 font-bold tracking-widest text-xs uppercase">Identificacion de Acceso</span>
+          <span className="text-white/60 font-bold tracking-widest text-center text-xs uppercase">CAPRECEN Central • Guacara</span>
         </div>
 
         <div className="absolute top-12 left-1/2 -translate-x-1/2">
@@ -45,6 +45,9 @@ const EmployeeBadge: React.FC<{ employee: EmployeeData }> = ({ employee }) => {
           <h2 className="text-xl font-bold text-gray-800 leading-tight">
             {employee.first_name.toUpperCase()} {employee.last_name.toUpperCase()}
           </h2>
+          <p className="text-sm font-bold text-gray-800 leading-tight">
+            C.I. V-{employee.employee_id}
+          </p>
           <p className="text-blue-600 font-medium text-sm mb-1 uppercase tracking-wide">
             {employee.department.name}
           </p>
@@ -67,9 +70,6 @@ const EmployeeBadge: React.FC<{ employee: EmployeeData }> = ({ employee }) => {
               fgColor="#1e293b"
             />
           </div>
-          <p className="mt-2 text-[10px] text-gray-400 font-mono tracking-tighter">
-            SCANEAR PARA VERIFICACION
-          </p>
         </div>
 
         <div className="mt-auto p-4 text-center">

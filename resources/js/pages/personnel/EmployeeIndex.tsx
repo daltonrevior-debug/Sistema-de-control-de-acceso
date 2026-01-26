@@ -9,11 +9,11 @@ import EmployeeBadge from '@/components/EmployeeBadge';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Personal',
+        title: 'Milicianos',
         href: '/dashboard',
     },
     {
-        title: 'Lista de Empleados',
+        title: 'Lista de Milicianos',
         href: '/dashboard',
     }
 ];
@@ -45,17 +45,17 @@ const EmployeeIndex: React.FC<EmployeeIndexProps> = ({ employees }) => {
                     <div className="flex justify-between items-end">
                         <div>
                             <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                                Listado de Personal
+                                Listado de Milicianos
                             </h3>
                             <p className="text-slate-500 text-sm mt-1">
-                                Gestiona la información de tus {employees.total} empleados registrados.
+                                Gestiona la información de los {employees.total} milicianos registrados.
                             </p>
                         </div>
                         <Link
                             href={route('personnel.employees.create')}
                             className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-5 rounded-xl shadow-lg shadow-indigo-200 transition-all active:scale-95 flex items-center gap-2 text-sm"
                         >
-                            <AiFillPlusCircle size={"1.2rem"} /> Añadir Empleado
+                            <AiFillPlusCircle size={"1.2rem"} /> Añadir Miliciano
                         </Link>
                     </div>
 
@@ -64,9 +64,9 @@ const EmployeeIndex: React.FC<EmployeeIndexProps> = ({ employees }) => {
                             <table className="min-w-full divide-y divide-slate-200">
                                 <thead className="bg-slate-50/50">
                                     <tr className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                                        <th className="p-4 text-left">ID</th>
-                                        <th className="p-4 text-left">Colaborador</th>
-                                        <th className="p-4 text-left">Departamento</th>
+                                        <th className="p-4 text-left">Cedula</th>
+                                        <th className="p-4 text-left">Miliciano</th>
+                                        <th className="p-4 text-left">Dependencia</th>
                                         <th className="p-4 text-left">Horario</th>
                                         <th className="p-4 text-center">Estado</th>
                                         <th className="p-4 text-center">Acciones</th>
