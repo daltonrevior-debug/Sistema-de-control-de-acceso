@@ -1,8 +1,7 @@
 import React from 'react'
-import { Head, Link } from '@inertiajs/react';
-import { LogIn, QrCode, ShieldCheck } from 'lucide-react';
+import { Head } from '@inertiajs/react';
 
-const ScreenLayout = (Component) => function HOC() {
+const ScreenLayout = (Component: React.FC) => function HOC() {
     return (
         <div className="relative min-h-screen bg-[#f8fafc] flex flex-col items-center justify-center selection:bg-indigo-500 selection:text-white font-sans">
 
@@ -26,7 +25,6 @@ const ScreenLayout = (Component) => function HOC() {
                     <div className="absolute right-2/5 w-40 h-40 inset-0 bg-contain bg-center bg-[url('/EscudoMilicia.png')]">
                     </div>
 
-                    {/* <ShieldCheck className="w-14 h-14 text-indigo-600" /> */}
                 </div>
 
                 <div className="text-center mb-16 space-y-6 max-w-2xl">
