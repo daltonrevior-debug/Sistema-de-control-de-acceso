@@ -9,6 +9,10 @@ interface AppLayoutProps {
 
 export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => (
     <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
-        {children}
+        <div className="absolute inset-0 bg-contain opacity-50 z-0 bg-[url('/Fondo.png')]">
+        </div>
+        <div className='z-10 bg-gray-50 opacity-80 h-screen'>
+            {children}
+        </div>
     </AppLayoutTemplate>
 );
