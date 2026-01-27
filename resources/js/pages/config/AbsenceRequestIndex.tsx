@@ -4,13 +4,14 @@ import AuthenticatedLayout from '@/layouts/app-layout';
 import { Check, X, User, Clock } from 'lucide-react';
 import { PaginatedData, PageProps, AbsenceRequest } from '@/types/global';
 import { type BreadcrumbItem } from '@/types';
+import { formatDate } from '@/lib/utils';
 
 interface AbsenceRequestIndexProps extends PageProps {
     requests: PaginatedData<AbsenceRequest>;
 }
 
 const AbsenceRequestIndex: React.FC<AbsenceRequestIndexProps> = ({ requests }) => {
-    
+
     const [rejectionModalOpen, setRejectionModalOpen] = useState(false);
     const [selectedRequest, setSelectedRequest] = useState<AbsenceRequest | null>(null);
     const [rejectionReason, setRejectionReason] = useState('');
@@ -23,7 +24,7 @@ const AbsenceRequestIndex: React.FC<AbsenceRequestIndexProps> = ({ requests }) =
 
     const handleApprove = (request: AbsenceRequest) => {
         if (request.status !== 'pending') return;
-        
+
         if (confirm(`¿Confirmar aprobación de la solicitud de ${request.employee?.first_name} por ${request.absence_type?.name}?`)) {
             router.post(route('config.absence-requests.approve', request.id), {}, {
                 onStart: () => setIsSubmitting(true),
@@ -34,7 +35,7 @@ const AbsenceRequestIndex: React.FC<AbsenceRequestIndexProps> = ({ requests }) =
 
     const openRejectModal = (request: AbsenceRequest) => {
         if (request.status !== 'pending') return;
-        
+
         setSelectedRequest(request);
         setRejectionReason('');
         setRejectionModalOpen(true);
@@ -73,11 +74,10 @@ const AbsenceRequestIndex: React.FC<AbsenceRequestIndexProps> = ({ requests }) =
 
             <div className="py-12">
                 <div className="w-full mx-auto sm:px-6 lg:px-8">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Listas de Solicitudes</h2>
                     <div className="bg-white overflow-hidden sm:rounded-lg">
                         <div className="p-6 bg-white border-b border-gray-200">
-                            
                             <h3 className="text-xl font-bold mb-6 text-gray-800">Revisión de Solicitudes</h3>
-
                             <div className="overflow-x-auto">
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
@@ -108,7 +108,7 @@ const AbsenceRequestIndex: React.FC<AbsenceRequestIndexProps> = ({ requests }) =
                                                         {request.absence_type?.name}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                        {request.start_date} al {request.end_date}
+                                                        {formatDate(request.start_date)} - {formatDate(request.end_date)}
                                                     </td>
                                                     <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate" title={request.reason}>{request.reason}</td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-center">
@@ -163,7 +163,7 @@ const AbsenceRequestIndex: React.FC<AbsenceRequestIndexProps> = ({ requests }) =
                         <p className="mb-4 text-sm text-gray-600">
                             Tipo: **{selectedRequest.absence_type?.name}** ({selectedRequest.start_date} al {selectedRequest.end_date})
                         </p>
-                        
+
                         <textarea
                             value={rejectionReason}
                             onChange={(e) => setRejectionReason(e.target.value)}
