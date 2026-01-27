@@ -21,22 +21,24 @@ interface ScheduleEditProps {
 }
 
 const ScheduleEdit: React.FC<ScheduleEditProps> = ({ schedule }) => {
-    
+
     const initialData = {
         name: schedule.name,
         start_time: schedule.start_time.substring(0, 5),
         end_time: schedule.end_time.substring(0, 5),
         tardy_tolerance_minutes: schedule.tardy_tolerance_minutes,
     };
-    
+
     return (
         <AuthenticatedLayout breadcrumbs={breadcrumbs} >
             <Head title={`Editar ${schedule.name}`} />
 
             <div className="py-12">
                 <div className="w-full mx-auto sm:px-6 lg:px-8">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Editar Horario : {schedule.name}</h2>
+
                     <div className="bg-white sm:rounded-lg p-8">
-                        <ScheduleForm 
+                        <ScheduleForm
                             initialData={initialData}
                             actionRoute={route('config.schedules.update', schedule.id)}
                             method="put"

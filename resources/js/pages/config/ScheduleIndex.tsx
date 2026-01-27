@@ -43,9 +43,8 @@ const ScheduleIndex: React.FC<ScheduleIndexProps> = ({ schedules }) => {
                 <div className="w-full mx-auto sm:px-6 lg:px-8">
 
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-lg font-medium text-gray-900">
-                            Gestión de Horarios
-                        </h3>
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Gestion de Horarios</h2>
+
                         <Link
                             href={route('config.schedules.create')}
                             className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150"
@@ -56,7 +55,7 @@ const ScheduleIndex: React.FC<ScheduleIndexProps> = ({ schedules }) => {
 
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 bg-white border-b border-gray-200">
-                            {/* Aqui se implementaria una logica para paginacion */}
+
                             <table className="min-w-full divide-y divide-gray-200">
                                 <thead className="bg-gray-50">
                                     <tr>
