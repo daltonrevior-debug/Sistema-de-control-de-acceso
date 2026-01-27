@@ -3,7 +3,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, User, ListCheck, Dock, Cog, Users, UserPlus, Clock, Handshake, Calendar, BarChart3, Briefcase } from 'lucide-react';
+import { LayoutGrid, User, ListCheck, Dock, Cog, Users, UserPlus, Clock, Handshake, Calendar, BarChart3, Briefcase, UserPlus2 } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -17,12 +17,12 @@ const mainNavItems: NavItem[] = [
         icon: User,
         children: [
             {
-                title: 'Gestión de Empleados',
+                title: 'Gestión de Milicianos',
                 href: route('personnel.employees.index'),
                 icon: Users,
             },
             {
-                title: 'Añadir Empleado',
+                title: 'Añadir Miliciano',
                 href: route('personnel.employees.create'),
                 icon: UserPlus,
             }
@@ -54,7 +54,7 @@ const mainNavItems: NavItem[] = [
         icon: Cog,
         children: [
             {
-                title: 'Departamentos',
+                title: 'Dependencias',
                 href: route('config.departments.index'),
                 icon: Briefcase,
             },
@@ -74,6 +74,11 @@ const mainNavItems: NavItem[] = [
                 href: route('config.absence-requests.index'),
                 icon: Calendar,
             },
+            {
+                title: 'Usuarios (Admin)',
+                href: route('config.absence-requests.index'),
+                icon: UserPlus2,
+            }
         ]
     },
     {
