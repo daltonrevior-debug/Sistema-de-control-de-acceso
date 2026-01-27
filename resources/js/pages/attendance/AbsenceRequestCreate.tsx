@@ -32,8 +32,9 @@ const AbsenceRequestCreate: React.FC<AbsenceRequestCreateProps> = ({ absenceType
         <AuthenticatedLayout breadcrumbs={breadcrumbs}>
             <Head title="Solicitar Ausencia" />
 
-            <div className="py-12 bg-gray-50 min-h-screen">
+            <div className="py-12 min-h-screen">
                 <div className="max-w-4xl sm:px-6 lg:px-8">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Solicitar Ausencia</h2>
                     <div className="bg-white shadow-sm border border-gray-200 rounded-xl p-8">
 
                         <div className="flex items-center gap-3 mb-8 pb-4 border-b border-gray-100">
@@ -117,8 +118,8 @@ const AbsenceRequestCreate: React.FC<AbsenceRequestCreateProps> = ({ absenceType
                                     type="submit"
                                     disabled={processing}
                                     className={`px-10 py-3 text-white font-bold rounded-lg shadow-lg transform active:scale-95 transition duration-200 ${processing
-                                            ? 'bg-gray-400 cursor-not-allowed'
-                                            : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-indigo-100'
+                                        ? 'bg-gray-400 cursor-not-allowed'
+                                        : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-indigo-100'
                                         }`}
                                 >
                                     {processing ? (

@@ -57,6 +57,7 @@ const AttendanceHistory: React.FC<AttendanceHistoryProps> = ({ historyData, filt
 
             <div className="py-12">
                 <div className="w-full mx-auto sm:px-6 lg:px-8">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Historial</h2>
                     <div className="bg-white sm:rounded-lg p-8">
                         <h3 className="text-xl font-bold mb-6 border-b pb-2">Registros de Marcaje</h3>
 

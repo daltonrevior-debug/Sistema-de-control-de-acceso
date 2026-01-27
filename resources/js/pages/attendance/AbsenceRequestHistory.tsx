@@ -4,13 +4,14 @@ import AuthenticatedLayout from '@/layouts/app-layout';
 import { PaginatedData, PageProps, AbsenceRequest } from '@/types/global';
 import { type BreadcrumbItem } from '@/types';
 import { Calendar, Handshake, Info } from 'lucide-react';
+import { formatDate } from '@/lib/utils';
 
 interface AbsenceRequestHistoryProps extends PageProps {
-    requests: PaginatedData<AbsenceRequest>; 
+    requests: PaginatedData<AbsenceRequest>;
 }
 
 const AbsenceRequestHistory: React.FC<AbsenceRequestHistoryProps> = ({ requests }) => {
-    
+
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Asistencias', href: route('attendance.index') },
         { title: 'Historial de Ausencias', href: route('attendance.absence-history') },
@@ -31,9 +32,10 @@ const AbsenceRequestHistory: React.FC<AbsenceRequestHistoryProps> = ({ requests 
 
             <div className="py-12">
                 <div className="w-full mx-auto sm:px-6 lg:px-8">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Historial de Ausencias</h2>
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 bg-white border-b border-gray-200">
-                            
+
                             <h3 className="text-xl font-bold mb-6 text-gray-800 flex items-center">
                                 <Handshake className="w-6 h-6 mr-2 text-indigo-600" />
                             </h3>
@@ -65,7 +67,7 @@ const AbsenceRequestHistory: React.FC<AbsenceRequestHistoryProps> = ({ requests 
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center">
                                                         <Calendar className="w-4 h-4 mr-1" />
-                                                        {request.start_date} al {request.end_date}
+                                                        {formatDate(request.start_date)} - {formatDate(request.end_date)}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                         {new Date(request.created_at).toLocaleDateString()}
@@ -79,7 +81,7 @@ const AbsenceRequestHistory: React.FC<AbsenceRequestHistoryProps> = ({ requests 
                                                         {request.approver?.name || (request.status === 'pending' ? 'N/A' : 'Sistema')}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                        <button 
+                                                        <button
                                                             title="Ver Razón/Detalle"
                                                             onClick={() => alert(`Razón:\n${request.reason}\n\n${request.status === 'rejected' && request.rejection_reason ? 'Razón de Rechazo: ' + request.rejection_reason : ''}`)}
                                                             className="text-gray-600 hover:text-indigo-600 transition"
