@@ -7,7 +7,7 @@ import { type BreadcrumbItem } from '@/types';
 import { AiFillPlusCircle } from "react-icons/ai"
 
 interface DepartmentIndexProps extends PageProps {
-    departments: PaginatedData<Department>; 
+    departments: PaginatedData<Department>;
 }
 
 const DepartmentIndex: React.FC<DepartmentIndexProps> = ({ departments }) => {
@@ -18,27 +18,29 @@ const DepartmentIndex: React.FC<DepartmentIndexProps> = ({ departments }) => {
     ];
 
     const handleDelete = (department: Department) => {
-        if (confirm(`¿Estás seguro de que quieres eliminar el Departamento "${department.name}"? Esto podría dejar empleados sin departamento.`)) {
+        if (confirm(`¿Estás seguro de que quieres eliminar la Dependencia "${department.name}"? Esto podría dejar empleados sin departamento.`)) {
             router.delete(route('config.departments.destroy', department.id));
         }
     };
 
     return (
         <AuthenticatedLayout breadcrumbs={breadcrumbs}>
-            <Head title="Departamentos" />
+            <Head title="Dependencias" />
 
             <div className="py-12">
                 <div className="w-full mx-auto sm:px-6 lg:px-8">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Gestion de Dependencias</h2>
+
                     <div className="bg-white overflow-hidden sm:rounded-lg">
                         <div className="p-6 bg-white border-b border-gray-200">
-                            
+
                             <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-xl font-bold text-gray-800 flex items-center"><Briefcase className="w-5 h-5 mr-2" /> Gestión de Departamentos</h3>
-                                <Link 
-                                    href={route('config.departments.create')} 
+                                <h3 className="text-xl font-bold text-gray-800 flex items-center"><Briefcase className="w-5 h-5 mr-2" /> Listas de Dependencias</h3>
+                                <Link
+                                    href={route('config.departments.create')}
                                     className="justify-center gap-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition"
                                 >
-                                    <AiFillPlusCircle size={"1.3rem"} color='white' /> Crear Departamento
+                                    <AiFillPlusCircle size={"1.3rem"} color='white' /> Crear Dependencia
                                 </Link>
                             </div>
 

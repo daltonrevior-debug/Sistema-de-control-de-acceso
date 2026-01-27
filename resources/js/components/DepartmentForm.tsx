@@ -35,14 +35,14 @@ const DepartmentForm: React.FC<DepartmentFormProps> = ({ initialData, actionRout
                 <div>
                     <div className="flex items-center gap-2 mb-6">
                         <div className="h-8 w-1 bg-indigo-600 rounded-full"></div>
-                        <h3 className="text-xl font-semibold text-gray-800">Información del Departamento</h3>
+                        <h3 className="text-xl font-semibold text-gray-800">Información de la Dependencia</h3>
                     </div>
 
                     <div className="space-y-6">
 
                         <div className="space-y-1">
                             <label htmlFor="name" className="text-sm font-semibold text-gray-700 ml-1">
-                                Nombre del Departamento
+                                Nombre de la Dependencia
                             </label>
                             <input
                                 id="name"
@@ -95,7 +95,7 @@ const DepartmentForm: React.FC<DepartmentFormProps> = ({ initialData, actionRout
                                 </svg>
                                 Guardando...
                             </span>
-                        ) : 'Guardar Departamento'}
+                        ) : 'Guardar Dependencia'}
                     </button>
                 </div>
             </form>

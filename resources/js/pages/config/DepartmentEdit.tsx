@@ -16,21 +16,23 @@ const DepartmentEdit: React.FC<DepartmentEditProps> = ({ department }) => {
         { title: 'Departamentos', href: route('config.departments.index') },
         { title: `Editar: ${department.name}`, href: '#' },
     ];
-    
+
     const initialData = {
         name: department.name,
         description: department.description,
     };
-    
+
     return (
         <AuthenticatedLayout breadcrumbs={breadcrumbs}>
             <Head title={`Editar ${department.name}`} />
 
             <div className="py-12">
                 <div className="w-full mx-auto sm:px-6 lg:px-8">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Editar Dependencia</h2>
+
                     <div className="bg-white sm:rounded-lg p-8">
-                        <h3 className="text-xl font-bold mb-6 text-gray-800">Editar Departamento: {department.name}</h3>
-                        <DepartmentForm 
+                        <h3 className="text-xl font-bold mb-6 text-gray-800">Editar Dependencia: {department.name}</h3>
+                        <DepartmentForm
                             initialData={initialData}
                             actionRoute={route('config.departments.update', department.id)}
                             method="put"
