@@ -21,7 +21,7 @@ const EmployeeBadge: React.FC<{ employee: EmployeeData }> = ({ employee }) => {
   };
 
   return (
-    <div className="flex flex-col items-center p-8 bg-gray-50 min-h-screen">
+    <div className="flex flex-col items-center p-8 min-h-screen">
 
       <div
         ref={badgeRef}

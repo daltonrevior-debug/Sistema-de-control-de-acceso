@@ -39,9 +39,11 @@ const EmployeeIndex: React.FC<EmployeeIndexProps> = ({ employees }) => {
         <AuthenticatedLayout breadcrumbs={breadcrumbs}>
             <Head title="Gestión de Empleados" />
 
-            <div className='grid grid-cols-12 gap-8 py-8 px-4 sm:px-6 lg:px-8 bg-[#f8fafc] min-h-screen'>
+            <div className='grid grid-cols-12 gap-8 py-8 px-4 sm:px-6 lg:px-8 min-h-screen'>
 
                 <div className="col-span-12 lg:col-span-8 flex flex-col gap-6">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Gestion de Milicianos</h2>
+
                     <div className="flex justify-between items-end">
                         <div>
                             <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">

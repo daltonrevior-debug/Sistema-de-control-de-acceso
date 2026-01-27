@@ -38,8 +38,10 @@ const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments, schedule }
         <AuthenticatedLayout breadcrumbs={breadcrumbs} >
             <Head title="Crear Empleado" />
 
-            <div className="py-12 bg-gray-50 min-h-screen">
+            <div className="py-12 min-h-screen">
                 <div className="max-w-5xl sm:px-6 lg:px-8">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Agregar Miliciano</h2>
+
                     <div className="bg-white shadow-sm border border-gray-200 rounded-xl p-8">
                         <form onSubmit={submit} className="space-y-8">
 
@@ -192,8 +194,8 @@ const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments, schedule }
                                     type="submit"
                                     disabled={processing}
                                     className={`px-8 py-3 text-white font-bold rounded-lg shadow-lg transform active:scale-95 transition duration-200 ${processing
-                                            ? 'bg-gray-400 cursor-not-allowed'
-                                            : 'bg-green-600 hover:bg-green-700 hover:shadow-green-100'
+                                        ? 'bg-gray-400 cursor-not-allowed'
+                                        : 'bg-green-600 hover:bg-green-700 hover:shadow-green-100'
                                         }`}
                                 >
                                     {processing ? 'Guardando...' : 'Crear Empleado'}
