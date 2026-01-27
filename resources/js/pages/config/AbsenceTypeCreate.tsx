@@ -5,7 +5,7 @@ import AbsenceTypeForm from '@/components/AbsenceTypeForm';
 import { type BreadcrumbItem } from '@/types';
 
 const AbsenceTypeCreate: React.FC = () => {
-    
+
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Gestión', href: '#' },
         { title: 'Tipos de Ausencia', href: route('config.absence-types.index') },
@@ -17,15 +17,16 @@ const AbsenceTypeCreate: React.FC = () => {
         description: '',
         is_paid: true,
     };
-    
+
     return (
         <AuthenticatedLayout breadcrumbs={breadcrumbs}>
             <Head title="Crear Tipo de Ausencia" />
 
             <div className="py-12">
                 <div className="w-full mx-auto sm:px-6 lg:px-8">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Crear tipo de Ausencia</h2>
                     <div className="bg-white sm:rounded-lg p-8">
-                        <AbsenceTypeForm 
+                        <AbsenceTypeForm
                             initialData={initialData}
                             actionRoute={route('config.absence-types.store')}
                             method="post"

@@ -29,13 +29,15 @@ const AbsenceTypeIndex: React.FC<AbsenceTypeIndexProps> = ({ types }) => {
 
             <div className="py-12">
                 <div className="w-full mx-auto sm:px-6 lg:px-8">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Listas de Ausencias</h2>
+
                     <div className="bg-white overflow-hidden sm:rounded-lg">
                         <div className="p-6 bg-white border-b border-gray-200">
-                            
+
                             <div className="flex justify-between items-center mb-6">
                                 <h3 className="text-xl font-bold text-gray-800">Tipos de Ausencia</h3>
-                                <Link 
-                                    href={route('config.absence-types.create')} 
+                                <Link
+                                    href={route('config.absence-types.create')}
                                     className="justify-center gap-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition"
                                 >
                                     <AiFillPlusCircle size={"1.3rem"} color='white' /> Crear Tipo
