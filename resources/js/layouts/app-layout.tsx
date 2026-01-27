@@ -9,10 +9,17 @@ interface AppLayoutProps {
 
 export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => (
     <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
-        <div className="absolute inset-0 bg-contain opacity-50 z-0 bg-[url('/Fondo.png')]">
-        </div>
-        <div className='z-10 bg-gray-50 opacity-80 h-screen'>
-            {children}
+        <div className="relative min-h-screen w-full overflow-hidden">
+
+            <div
+                className="fixed inset-0 bg-contain bg-center opacity-15 z-0 pointer-events-none"
+                style={{ backgroundImage: "url('/Fondo.png')" }}
+            >
+            </div>
+
+            <div className='relative z-20 min-h-screen'>
+                {children}
+            </div>
         </div>
     </AppLayoutTemplate>
 );
