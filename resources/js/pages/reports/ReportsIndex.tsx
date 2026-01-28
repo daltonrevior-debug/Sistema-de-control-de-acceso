@@ -16,18 +16,18 @@ const ReportsIndex: React.FC<ReportsIndexProps> = ({ employeeCount, absenceTypeC
     ];
 
     const reportLinks = [
-        {
-            title: 'Resumen de Ausencias',
-            description: 'Visualiza la tasa de ausentismo, resumen por tipo de ausencia y tendencias mensuales.',
-            icon: Calendar,
-            href: route('reports.absence-summary')
-        },
-        {
-            title: 'Balance de Días Libres',
-            description: 'Revisa cuántos días de vacaciones o permisos pagados le restan a cada empleado.',
-            icon: Clock,
-            href: route('reports.leave-balance')
-        },
+        // {
+        //     title: 'Resumen de Ausencias',
+        //     description: 'Visualiza la tasa de ausentismo, resumen por tipo de ausencia y tendencias mensuales.',
+        //     icon: Calendar,
+        //     href: route('reports.absence-summary')
+        // },
+        // {
+        //     title: 'Balance de Días Libres',
+        //     description: 'Revisa cuántos días de vacaciones o permisos pagados le restan a cada empleado.',
+        //     icon: Clock,
+        //     href: route('reports.leave-balance')
+        // },
         {
             title: 'Reporte de Asistencia',
             description: 'Detalle de marcajes de entrada y salida por período de tiempo y empleado.',

@@ -85,16 +85,16 @@ const mainNavItems: NavItem[] = [
         icon: Dock,
         permission: 'reportes',
         children: [
-            {
-                title: 'Resumen de Ausencias',
-                href: route('reports.absence-summary'),
-                icon: Calendar,
-            },
-            {
-                title: 'Balance de Días Libres',
-                href: route('reports.leave-balance'),
-                icon: Clock,
-            },
+            // {
+            //     title: 'Resumen de Ausencias',
+            //     href: route('reports.absence-summary'),
+            //     icon: Calendar,
+            // },
+            // {
+            //     title: 'Balance de Días Libres',
+            //     href: route('reports.leave-balance'),
+            //     icon: Clock,
+            // },
             {
                 title: 'Asistencia Detallada',
                 href: route('reports.attendance-detail'),
