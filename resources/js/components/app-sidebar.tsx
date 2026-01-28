@@ -5,6 +5,7 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { LayoutGrid, User, ListCheck, Dock, Cog, Users, UserPlus, Clock, Handshake, Calendar, BarChart3, Briefcase, UserPlus2, UserCheck } from 'lucide-react';
 import AppLogo from './app-logo';
+import { usePage } from '@inertiajs/react';
 
 const mainNavItems: NavItem[] = [
     {
@@ -14,6 +15,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Personal',
+        permission: 'personal',
         icon: User,
         children: [
             {
@@ -31,6 +33,7 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Asistencias',
         icon: ListCheck,
+        permission: 'asistencias',
         children: [
             {
                 title: 'Historial',
@@ -52,6 +55,7 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Gestión',
         icon: Cog,
+        permission: 'gestion',
         children: [
             {
                 title: 'Dependencias',
@@ -79,6 +83,7 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Reportes',
         icon: Dock,
+        permission: 'reportes',
         children: [
             {
                 title: 'Resumen de Ausencias',
@@ -105,6 +110,7 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Perfiles',
         icon: UserPlus2,
+        role: "super_admin",
         children: [
             {
                 title: 'Lista de Usuarios',
@@ -121,6 +127,36 @@ const mainNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+
+    const { auth } = usePage().props as any;
+    const user = auth.user;
+
+    const canSee = (item: NavItem) => {
+        if (!item.role && !item.permission) return true;
+
+        if (item.role) {
+            const roles = Array.isArray(item.role) ? item.role : [item.role];
+            if (!roles.includes(user.role)) return false;
+        }
+
+        if (item.permission) {
+            const userPermissions = user.permission || [];
+            if (!userPermissions.includes(item.permission)) return false;
+        }
+
+        return true;
+    };
+
+    const filteredNavItems = mainNavItems.filter(item => {
+        const visible = canSee(item);
+
+        if (visible && item.children) {
+            item.children = item.children.filter(child => canSee(child));
+        }
+
+        return visible;
+    });
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -136,7 +172,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={filteredNavItems} />
             </SidebarContent>
 
             <SidebarFooter>
