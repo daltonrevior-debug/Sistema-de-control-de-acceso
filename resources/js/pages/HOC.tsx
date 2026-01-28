@@ -1,5 +1,6 @@
 import React from 'react'
 import { Head } from '@inertiajs/react';
+import Toast from '@/components/Toast';
 
 const ScreenLayout = (Component: React.FC) => function HOC() {
     return (
@@ -41,6 +42,8 @@ const ScreenLayout = (Component: React.FC) => function HOC() {
                 </div>
 
             </div>
+
+            <Toast />
 
             <div className="mt-auto py-10 text-gray-400 text-sm">
                 © {new Date().getFullYear()} — <span className="font-semibold text-gray-500">Control de Asistencias</span>. Tu gestión de personal simplificada.

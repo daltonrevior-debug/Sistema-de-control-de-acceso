@@ -1,6 +1,7 @@
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { type BreadcrumbItem } from '@/types';
 import { type ReactNode } from 'react';
+import Toast from '@/components/Toast';
 
 interface AppLayoutProps {
     children: ReactNode;
@@ -20,6 +21,8 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => (
             <div className='relative z-20 min-h-screen'>
                 {children}
             </div>
+
+            <Toast />
         </div>
     </AppLayoutTemplate>
 );
