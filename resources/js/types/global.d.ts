@@ -24,16 +24,21 @@ interface Schedule {
 
 interface Employee {
     id: number;
-    employee_id: string; // Ej: EMP-001
-    first_name: string,
-    last_name: string,
-    personal_email: string,
+    employee_id: string;
+    first_name: string;
+    last_name: string;
+    personal_email: string;
     phone: string | null;
-    hire_date: string; // Formato de fecha
+    hire_date: string;
     department_id: number;
-    schedule_id: number,
+    schedule_id: number;
     position: string | null;
     status: 'active' | 'inactive' | 'terminated';
+    birth_date: string | null;
+    birth_place: string | null;
+    marital_status: 'soltero' | 'casado' | 'viudo' | 'divorciado';
+    current_address: string | null;
+    photo: string | null;
     department: Department;
     schedule: Schedule;
 }
@@ -59,16 +64,21 @@ interface EmployeeCreateProps {
 
 interface EmployeeData {
     id: number;
+    employee_id: string;
     first_name: string;
     last_name: string;
-    personal_email: string | null;
-    employee_id: string;
+    personal_email: string;
+    phone: string | null;
     hire_date: string;
     department_id: number;
-    schedule_id: number,
+    schedule_id: number;
     position: string | null;
-    phone: string | null;
     status: 'active' | 'inactive' | 'terminated';
+    birth_date: string | null;
+    birth_place: string | null;
+    marital_status: 'soltero' | 'casado' | 'viudo' | 'divorciado';
+    current_address: string | null;
+    photo: string | null;
     department: Department;
     schedule: Schedule;
 }

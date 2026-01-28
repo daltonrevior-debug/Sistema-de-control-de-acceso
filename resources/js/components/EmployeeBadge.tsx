@@ -34,10 +34,18 @@ const EmployeeBadge: React.FC<{ employee: EmployeeData }> = ({ employee }) => {
         </div>
 
         <div className="absolute top-12 left-1/2 -translate-x-1/2">
-          <div className="w-28 h-28 rounded-full border-4 border-white shadow-lg flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600">
-            <span className="text-white text-3xl font-bold tracking-tighter">
-              {`${employee.first_name?.charAt(0) || ''}${employee.last_name?.charAt(0) || ''}`.toUpperCase()}
-            </span>
+          <div className="w-28 h-28 rounded-full border-4 border-white shadow-lg flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600 overflow-hidden">
+            {employee.photo ? (
+              <img
+                src={`${employee.photo}`}
+                alt="foto del carnet"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="text-white text-3xl font-bold tracking-tighter">
+                {`${employee.first_name?.charAt(0) || ''}${employee.last_name?.charAt(0) || ''}`.toUpperCase()}
+              </span>
+            )}
           </div>
         </div>
 
