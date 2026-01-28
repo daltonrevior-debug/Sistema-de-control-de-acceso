@@ -29,8 +29,10 @@ const EmployeeBadge: React.FC<{ employee: EmployeeData }> = ({ employee }) => {
         style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
       >
 
-        <div className="h-24 bg-gradient-to-br from-blue-600 to-indigo-700 p-4 flex justify-center items-start">
-          <span className="text-white/60 font-bold tracking-widest text-center text-xs uppercase">CAPRECEN Central • Guacara</span>
+        <div className="relative h-24 bg-gradient-to-br from-blue-600 to-indigo-700 p-4 flex justify-center items-start">
+          <span className="text-white/60 font-bold tracking-widest text-center text-xs uppercase">
+            CAPRECEN Central • Guacara
+          </span>
         </div>
 
         <div className="absolute top-12 left-1/2 -translate-x-1/2">
@@ -47,7 +49,12 @@ const EmployeeBadge: React.FC<{ employee: EmployeeData }> = ({ employee }) => {
               </span>
             )}
           </div>
+
         </div>
+
+          <div
+            className="absolute top-10 left-2 w-13 h-13 bg-[url('/Escudomilicia.png')] bg-contain bg-no-repeat bg-center opacity-90"
+          ></div>
 
         <div className="mt-20 px-6 text-center">
           <h2 className="text-xl font-bold text-gray-800 leading-tight">
@@ -64,7 +71,7 @@ const EmployeeBadge: React.FC<{ employee: EmployeeData }> = ({ employee }) => {
           </p>
         </div>
 
-        <div className="mt-6 flex flex-col items-center justify-center bg-gray-50 py-4 border-y border-gray-100">
+        <div className="mt-1 flex flex-col items-center justify-center bg-gray-50 py-4 border-y border-gray-100">
           <div className="p-2 bg-white rounded-xl shadow-sm border border-gray-100">
             <QRCode
               value={`${employee.id}`}
@@ -72,7 +79,7 @@ const EmployeeBadge: React.FC<{ employee: EmployeeData }> = ({ employee }) => {
               quietZone={5}
               logoWidth={30}
               logoOpacity={0.9}
-              qrStyle="squares"
+              qrStyle="dots"
               eyeRadius={[10, 10, 10, 10]}
               eyeColor="#2563eb"
               fgColor="#1e293b"
