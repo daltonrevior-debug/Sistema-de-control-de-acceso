@@ -19,7 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Redirect::route('reports.index');
     })->name('dashboard');
 
-    Route::prefix('personnel')->name('personnel.')->middleware(['role:admin,super_admin','permissions:personal'])->group(function () {
+    Route::prefix('personnel')->name('personnel.')->middleware(['role:admin,super_admin', 'permissions:personal'])->group(function () {
         Route::get('/employees', [\App\Http\Controllers\EmployeeController::class, 'index'])->name('employees.index');
         Route::get('/employees/create', [\App\Http\Controllers\EmployeeController::class, 'create'])->name('employees.create');
         Route::post('/employees', [\App\Http\Controllers\EmployeeController::class, 'store'])->name('employees.store');
@@ -27,7 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/employees/{employee}', [\App\Http\Controllers\EmployeeController::class, 'update'])->name('employees.update');
     });
 
-    Route::prefix('attendance')->name('attendance.')->middleware(['role:admin,super_admin','permissions:asistencias'])->group(function () {
+    Route::prefix('attendance')->name('attendance.')->middleware(['role:admin,super_admin', 'permissions:asistencias'])->group(function () {
         Route::get('/', [\App\Http\Controllers\AttendanceController::class, 'index'])->name('index');
         Route::post('/check-in', [\App\Http\Controllers\AttendanceController::class, 'checkIn'])->name('check.in');
         Route::post('/check-out', [\App\Http\Controllers\AttendanceController::class, 'checkOut'])->name('check.out');
@@ -37,7 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/absence-history', [\App\Http\Controllers\AbsenceRequestController::class, 'employeeHistory'])->name('absence-history');
     });
 
-    Route::prefix('config')->name('config.')->middleware(['role:admin,super_admin','permissions:gestion'])->group(function () {
+    Route::prefix('config')->name('config.')->middleware(['role:admin,super_admin', 'permissions:gestion'])->group(function () {
         Route::resource('schedules', \App\Http\Controllers\ScheduleController::class)->only([
             'index',
             'create',
@@ -62,7 +62,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
 
-    Route::prefix('reports')->name('reports.')->middleware(['role:admin,super_admin','permissions:reportes'])->controller(\App\Http\Controllers\ReportController::class)->group(function () {
+    Route::prefix('reports')->name('reports.')->middleware(['role:admin,super_admin', 'permissions:reportes'])->controller(\App\Http\Controllers\ReportController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/absence-summary', 'absenceSummary')->name('absence-summary');
         Route::get('/leave-balance', 'leaveBalance')->name('leave-balance');
@@ -76,6 +76,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{user}/edit', 'edit')->name('edit');
         Route::post('/', 'store')->name('store');
         Route::put('/{user}', 'update')->name('update');
+        Route::delete('/{user}', 'destroy')->name('destroy');
     });
 });
 

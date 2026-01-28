@@ -1,23 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AuthenticatedLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import {
     UserPlus,
     Mail,
     ShieldCheck,
     UserCog,
     Edit3,
-    Key
+    Key,
+    Trash2,
+    AlertTriangle
 } from 'lucide-react';
 import { IndexProps } from '@/types/global';
 
 function index({ users }: IndexProps) {
+    const [userToDelete, setUserToDelete] = useState<number | null>(null);
+    const { delete: destroy, processing } = useForm();
 
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Perfiles', href: route('users.index') },
         { title: 'Listas de Usuarios', href: route('users.index') },
     ];
+
+    const handleDelete = (id: number) => {
+        destroy(route('users.destroy', id), {
+            onSuccess: () => setUserToDelete(null),
+        });
+    };
 
     return (
         <AuthenticatedLayout breadcrumbs={breadcrumbs}>
@@ -95,13 +105,22 @@ function index({ users }: IndexProps) {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <Link
-                                                    href={route('users.edit', user.id)}
-                                                    className="inline-flex items-center gap-1 text-indigo-600 hover:text-indigo-900 bg-indigo-50 px-3 py-1 rounded-md transition-colors"
-                                                >
-                                                    <Edit3 className="w-4 h-4" />
-                                                    Editar
-                                                </Link>
+                                                <div className="flex justify-end gap-2">
+                                                    <Link
+                                                        href={route('users.edit', user.id)}
+                                                        className="inline-flex items-center gap-1 text-indigo-600 hover:text-indigo-900 bg-indigo-50 px-3 py-1 rounded-md transition-colors"
+                                                    >
+                                                        <Edit3 className="w-4 h-4" />
+                                                        Editar
+                                                    </Link>
+                                                    <button
+                                                        onClick={() => setUserToDelete(user.id)}
+                                                        className="cursor-pointer inline-flex items-center gap-1 text-red-600 hover:text-red-900 bg-red-50 px-3 py-1 rounded-md transition-colors"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                        Eliminar
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -111,6 +130,38 @@ function index({ users }: IndexProps) {
                     </div>
                 </div>
             </div>
+
+            {userToDelete && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+                    <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-in zoom-in-95 duration-200">
+                        <div className="flex items-center gap-4 text-red-600 mb-4">
+                            <div className="p-3 bg-red-100 rounded-full">
+                                <AlertTriangle className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-lg font-bold">¿Eliminar usuario?</h3>
+                        </div>
+                        <p className="text-gray-600 mb-6">
+                            Esta acción es permanente y no se puede deshacer. El usuario perderá el acceso al sistema inmediatamente.
+                        </p>
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => setUserToDelete(null)}
+                                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                                disabled={processing}
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                onClick={() => handleDelete(userToDelete)}
+                                className="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
+                                disabled={processing}
+                            >
+                                {processing ? 'Eliminando...' : 'Confirmar Eliminación'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </AuthenticatedLayout>
     )
 }

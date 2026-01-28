@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
@@ -77,5 +78,26 @@ class UsersController extends Controller
         $user->update($data);
 
         return redirect()->route('users.index')->with('message', 'Usuario actualizado correctamente.');
+    }
+
+    public function destroy(User $user)
+    {
+        $currentUser = Auth::user();
+
+        if ($currentUser->id === $user->id) {
+            return redirect()->back()->with('error', 'No puedes eliminar tu propia cuenta.');
+        }
+
+        if ($user->role === 'admin' && $currentUser->role !== 'super_admin') {
+            return redirect()->back()->with('error', 'No tienes permisos suficientes para eliminar a otro administrador.');
+        }
+
+        if ($user->role === 'super_admin' && $currentUser->role !== 'super_admin') {
+            return redirect()->back()->with('error', 'No se puede eliminar a un Super Administrador.');
+        }
+
+        $user->delete();
+
+        return redirect()->route('users.index')->with('message', 'Usuario eliminado correctamente.');
     }
 }
