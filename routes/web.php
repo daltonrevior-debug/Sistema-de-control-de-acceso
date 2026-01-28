@@ -9,7 +9,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::prefix('public/attendance')->name('public.attendance.')->controller(\App\Http\Controllers\PublicAttendanceController::class)->group(function () {
-    Route::get('/scanner', 'scanner')->name('scanner'); 
+    Route::get('/scanner', 'scanner')->name('scanner');
     Route::post('/mark', 'mark')->name('mark');
 });
 
@@ -27,7 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('attendance')->name('attendance.')->group(function () {
-        Route::get('/', [\App\Http\Controllers\AttendanceController::class, 'index'])->name('index'); 
+        Route::get('/', [\App\Http\Controllers\AttendanceController::class, 'index'])->name('index');
         Route::post('/check-in', [\App\Http\Controllers\AttendanceController::class, 'checkIn'])->name('check.in');
         Route::post('/check-out', [\App\Http\Controllers\AttendanceController::class, 'checkOut'])->name('check.out');
         Route::get('/history', [\App\Http\Controllers\AttendanceController::class, 'history'])->name('history');
@@ -38,10 +38,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('config')->name('config.')->group(function () {
         Route::resource('schedules', \App\Http\Controllers\ScheduleController::class)->only([
-        'index', 'create', 'store', 'edit', 'update', 'destroy'
+            'index',
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy'
         ]);
         Route::resource('absence-types', \App\Http\Controllers\AbsenceTypeController::class)->only([
-            'index', 'create', 'store', 'edit', 'update', 'destroy'
+            'index',
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy'
         ]);
         Route::resource('departments', \App\Http\Controllers\DepartmentController::class)->except(['show']);
         Route::prefix('absence-requests')->name('absence-requests.')->controller(\App\Http\Controllers\AbsenceRequestController::class)->group(function () {
@@ -52,11 +62,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('reports')->name('reports.')->controller(\App\Http\Controllers\ReportController::class)->group(function () {
-        Route::get('/', 'index')->name('index'); 
+        Route::get('/', 'index')->name('index');
         Route::get('/absence-summary', 'absenceSummary')->name('absence-summary');
         Route::get('/leave-balance', 'leaveBalance')->name('leave-balance');
         Route::get('/attendance-detail', 'attendanceDetail')->name('attendance-detail');
         Route::get('/personnel-list', 'personnelList')->name('personnel-list');
+    });
+
+    Route::prefix('users')->name('users.')->controller(\App\Http\Controllers\UsersController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/{user}/edit', 'edit')->name('edit');
+        Route::post('/', 'store')->name('store');
+        Route::put('/{user}', 'update')->name('update');
     });
 });
 

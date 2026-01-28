@@ -4,10 +4,37 @@ declare global {
     const route: typeof routeFn;
 }
 
-interface User {
+// interface User {
+//     id: number;
+//     name: string;
+//     email: string;
+// }
+
+export interface UserForm {
+    [key: string]: any;
+    name: string;
+    email: string;
+    role: string;
+    permission: string[];
+    password: string;
+    password_confirmation: string;
+}
+
+export interface User {
     id: number;
     name: string;
     email: string;
+    role: string;
+    permission: string[] | null;
+    email_verified_at: string | null;
+}
+
+export interface IndexProps {
+    users: User[];
+}
+
+export interface EditProps {
+    user: User;
 }
 
 interface Department {

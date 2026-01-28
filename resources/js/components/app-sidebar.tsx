@@ -3,7 +3,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, User, ListCheck, Dock, Cog, Users, UserPlus, Clock, Handshake, Calendar, BarChart3, Briefcase, UserPlus2 } from 'lucide-react';
+import { LayoutGrid, User, ListCheck, Dock, Cog, Users, UserPlus, Clock, Handshake, Calendar, BarChart3, Briefcase, UserPlus2, UserCheck } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -73,11 +73,6 @@ const mainNavItems: NavItem[] = [
                 title: 'Solicitudes (Admin)',
                 href: route('config.absence-requests.index'),
                 icon: Calendar,
-            },
-            {
-                title: 'Usuarios (Admin)',
-                href: route('config.absence-requests.index'),
-                icon: UserPlus2,
             }
         ]
     },
@@ -104,6 +99,22 @@ const mainNavItems: NavItem[] = [
                 title: 'Listado de Personal',
                 href: route('reports.personnel-list'),
                 icon: Users,
+            }
+        ]
+    },
+    {
+        title: 'Perfiles',
+        icon: UserPlus2,
+        children: [
+            {
+                title: 'Lista de Usuarios',
+                href: route('users.index'),
+                icon: ListCheck,
+            },
+            {
+                title: 'Crear Usuario',
+                href: route('users.create'),
+                icon: User,
             }
         ]
     }
