@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Download, Users, Briefcase, Search } from 'lucide-react';
+import {
+    Download,
+    Users,
+    Briefcase,
+    Search,
+    Filter,
+    Mail,
+    Calendar,
+    Building2,
+    UserCircle2,
+    ArrowRightCircle,
+    BadgeInfo
+} from 'lucide-react';
 import Pagination from '@/components/Pagination';
 import { PaginatedData } from '@/types/global';
 
@@ -29,7 +41,6 @@ interface PersonnelListProps {
 }
 
 const PersonnelList: React.FC<PersonnelListProps> = ({ employees, departments, filters }) => {
-
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Reportes', href: route('reports.index') },
         { title: 'Listado de Personal', href: route('reports.personnel-list') },
@@ -40,126 +51,146 @@ const PersonnelList: React.FC<PersonnelListProps> = ({ employees, departments, f
     });
 
     const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setFilterData({
-            ...filterData,
-            department_id: e.target.value,
-        });
-    };
-
-    const applyFilters = () => {
-        router.get(route('reports.personnel-list'), filterData, {
+        const newData = { ...filterData, department_id: e.target.value };
+        setFilterData(newData);
+        router.get(route('reports.personnel-list'), newData, {
             preserveState: true,
             replace: true,
         });
     };
 
+    // const handleExport = () => {
+    //     window.location.href = route('reports.personnel-export', filterData);
+    // };
+
     return (
         <AuthenticatedLayout breadcrumbs={breadcrumbs}>
             <Head title="Listado de Personal" />
 
-            <div className="py-12">
-                <div className="w-full mx-auto sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-3xl font-extrabold text-gray-900">Listado Detallado de Personal</h2>
-                        <button className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition">
-                            <Download className="w-5 h-5 mr-2" /> Exportar
-                        </button>
+            <div className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl space-y-6">
+
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                            <Users className="w-8 h-8 text-indigo-600" />
+                            Directorio de Personal
+                        </h1>
+                        <p className="text-gray-500 text-sm mt-1">
+                            Visualiza la información detallada de todos los milicianos.
+                        </p>
                     </div>
+                    {/* <button
+                        onClick={handleExport}
+                        className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-emerald-100 transition-all active:scale-95"
+                    >
+                        <Download className="w-4 h-4" />
+                        Descargar Reporte
+                    </button> */}
+                </div>
 
-                    <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-8">
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
-
-                            <div className="md:col-span-2 space-y-1">
-                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">
-                                    Filtrar por Departamento
-                                </label>
-                                <div className="relative">
-                                    <select
-                                        name="department_id"
-                                        value={filterData.department_id}
-                                        onChange={handleFilterChange}
-                                        className="block w-full pl-4 pr-10 py-2.5 text-sm border-gray-300 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 rounded-lg transition duration-200 outline-none appearance-none bg-white"
-                                    >
-                                        <option value="">Todos los Departamentos</option>
-                                        {departments.map(dept => (
-                                            <option key={dept.id} value={dept.id}>{dept.name}</option>
-                                        ))}
-                                    </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
-                                        <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="md:col-span-2 flex items-center gap-3">
-                                <button
-                                    onClick={applyFilters}
-                                    className="flex-grow flex justify-center items-center gap-2 px-6 py-2.5 bg-indigo-600 text-white font-bold rounded-lg text-sm hover:bg-indigo-700 shadow-md hover:shadow-indigo-100 transform active:scale-95 transition duration-200"
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="p-6 flex flex-col md:flex-row items-end gap-4">
+                        <div className="w-full md:w-1/3 space-y-2">
+                            <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                                <Filter className="w-4 h-4 text-indigo-500" />
+                                Filtrar por Dependencia
+                            </label>
+                            <div className="relative">
+                                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <select
+                                    className="w-full pl-10 rounded-xl border-gray-200 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+                                    value={filterData.department_id}
+                                    onChange={handleFilterChange}
                                 >
-                                    <Search className="w-4 h-4" />
-                                    Filtrar
-                                </button>
-
-                                <button
-                                    onClick={() => {/* Función para resetear data */ }}
-                                    title="Limpiar filtros"
-                                    className="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition duration-200"
-                                >
-                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </button>
+                                    <option value="">Todos las dependencias</option>
+                                    {departments.map((dept) => (
+                                        <option key={dept.id} value={dept.id}>{dept.name}</option>
+                                    ))}
+                                </select>
                             </div>
+                        </div>
 
+                        <div className="hidden md:block flex-1 italic text-gray-400 text-sm pb-3">
+                            Mostrando {employees.data.length} registros en esta página
                         </div>
                     </div>
+                </div>
 
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6">
-                            <p className="text-sm text-gray-500 mb-4 flex items-center">
-                                <Users className="w-4 h-4 mr-1" /> Total de Empleados: **{employees.total}**
-                            </p>
-
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
-                                        <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre Completo</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Departamento</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cargo</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Contratación</th>
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr className="bg-gray-50/50">
+                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Miliciano</th>
+                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Dependencia</th>
+                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Cargo / Posición</th>
+                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Contacto e Incorporacion</th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-100">
+                                {employees.data.length > 0 ? (
+                                    employees.data.map((employee) => (
+                                        <tr key={employee.id} className="hover:bg-indigo-50/30 transition-colors group">
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="flex items-center">
+                                                    <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md shadow-indigo-100 group-hover:rotate-3 transition-transform">
+                                                        {employee.fullName.charAt(0)}
+                                                    </div>
+                                                    <div className="ml-4">
+                                                        <div className="text-sm font-bold text-gray-900">{employee.fullName}</div>
+                                                        <div className="text-[11px] text-gray-400 font-mono uppercase tracking-wider">ID: {employee.id}</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="flex items-center text-sm text-gray-600">
+                                                    <Building2 className="w-4 h-4 mr-2 text-gray-400" />
+                                                    {employee.department}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-bold border border-indigo-100 uppercase">
+                                                    <Briefcase className="w-3 h-3" />
+                                                    {employee.position}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="space-y-1">
+                                                    <div className="flex items-center text-xs text-gray-500 italic">
+                                                        <Mail className="w-3 h-3 mr-2" />
+                                                        {employee.email}
+                                                    </div>
+                                                    <div className="flex items-center text-xs text-gray-600 font-medium">
+                                                        <Calendar className="w-3 h-3 mr-2 text-indigo-400" />
+                                                        Desde: {employee.hiringDate}
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
-                                        {employees.data.map((employee) => (
-                                            <tr key={employee.id} className="hover:bg-gray-50">
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{employee.id}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{employee.fullName}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{employee.department}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600 flex items-center">
-                                                    <Briefcase className="w-4 h-4 mr-2" />{employee.position}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{employee.email}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{employee.hiringDate}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={4} className="px-6 py-16 text-center">
+                                            <div className="flex flex-col items-center justify-center">
+                                                <div className="bg-gray-50 p-4 rounded-full mb-4">
+                                                    <UserCircle2 className="w-12 h-12 text-gray-300" />
+                                                </div>
+                                                <h3 className="text-gray-900 font-bold">No se encontró personal</h3>
+                                                <p className="text-gray-500 text-sm">Prueba ajustando los filtros de búsqueda.</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
 
-                            <div className="mt-4">
-                                {employees.links && <Pagination links={employees.links} />}
-                            </div>
-                        </div>
+                    <div className="p-6 bg-gray-50/50 border-t border-gray-100">
+                        {employees.links && <Pagination links={employees.links} />}
                     </div>
                 </div>
             </div>
         </AuthenticatedLayout>
     );
 };
-
 export default PersonnelList;
