@@ -31,7 +31,7 @@ const EmployeeBadge: React.FC<{ employee: EmployeeData }> = ({ employee }) => {
 
         <div className="relative h-24 bg-gradient-to-br from-blue-600 to-indigo-700 p-4 flex justify-center items-start">
           <span className="text-white/60 font-bold tracking-widest text-center text-xs uppercase">
-            CAPRECEN Central • Guacara
+            REDI CENTRAL • Guacara
           </span>
         </div>
 
@@ -52,9 +52,13 @@ const EmployeeBadge: React.FC<{ employee: EmployeeData }> = ({ employee }) => {
 
         </div>
 
-          <div
-            className="absolute top-10 left-2 w-13 h-13 bg-[url('/Escudomilicia.png')] bg-contain bg-no-repeat bg-center opacity-90"
-          ></div>
+        <div
+          className="absolute top-10 left-2 w-13 h-13 bg-[url('/Escudomilicia.png')] bg-contain bg-no-repeat bg-center opacity-90"
+        ></div>
+
+        <div
+          className="absolute top-10 right-2 w-13 h-13 bg-[url('/EscudoREDI.png')] bg-contain bg-no-repeat bg-center opacity-90"
+        ></div>
 
         <div className="mt-20 px-6 text-center">
           <h2 className="text-xl font-bold text-gray-800 leading-tight">

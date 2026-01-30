@@ -22,6 +22,12 @@ const breadcrumbs: BreadcrumbItem[] = [
     }
 ];
 
+const Jerarquias = [
+    "Coronel", "Teniente Coronel", "Mayor", "Capitan", "Primer Teniente",
+    "Teniente", "Sargento Mayor de Tercera", "Sargento Primero", "Sargento Segundo",
+    "Cabo Primero", "Cabo Segundo", "Distinguido", "Soldado"
+]
+
 const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments, schedule }) => {
     const [preview, setPreview] = useState<string | null>(null);
 
@@ -271,14 +277,21 @@ const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments, schedule }
 
                                 <div>
                                     <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
-                                        <MdOutlineWorkOutline className="text-indigo-500" /> Cargo / Posición
+                                        <MdOutlineWorkOutline className="text-indigo-500" /> Jerarquía
                                     </label>
-                                    <input
-                                        type="text"
+                                    <select
                                         value={data.position}
-                                        onChange={(e) => setData('position', e.target.value)}
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-200"
-                                    />
+                                        onChange={(e) => setData('position', e.target.value as any)}
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    >
+                                        <option>Seleccione una Jerarquía</option>
+                                        {Jerarquias.map((jer, i) => (
+                                            <option key={i} value={jer}>
+                                                {jer}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {errors.position && <p className="text-red-500 text-xs mt-1">{errors.position}</p>}
                                 </div>
 
                                 <div>
