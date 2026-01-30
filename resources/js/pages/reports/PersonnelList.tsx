@@ -123,7 +123,7 @@ const PersonnelList: React.FC<PersonnelListProps> = ({ employees, departments, f
                                 <tr className="bg-gray-50/50">
                                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Miliciano</th>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Dependencia</th>
-                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Cargo / Posición</th>
+                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Jerarquía</th>
                                     <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Contacto e Incorporacion</th>
                                 </tr>
                             </thead>

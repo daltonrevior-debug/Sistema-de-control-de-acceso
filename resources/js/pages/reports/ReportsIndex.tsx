@@ -24,19 +24,19 @@ const ReportsIndex: React.FC<ReportsIndexProps> = ({ employeeCount, absenceTypeC
         // },
         // {
         //     title: 'Balance de Días Libres',
-        //     description: 'Revisa cuántos días de vacaciones o permisos pagados le restan a cada empleado.',
+        //     description: 'Revisa cuántos días de vacaciones o permisos pagados le restan a cada miliciano.',
         //     icon: Clock,
         //     href: route('reports.leave-balance')
         // },
         {
             title: 'Reporte de Asistencia',
-            description: 'Detalle de marcajes de entrada y salida por período de tiempo y empleado.',
+            description: 'Detalle de marcajes de entrada y salida por período de tiempo y miliciano.',
             icon: BarChart3,
             href: route('reports.attendance-detail')
         },
         {
             title: 'Listado de Personal',
-            description: 'Genera un listado completo de empleados con información clave (departamento, cargo).',
+            description: 'Genera un listado completo de milicianos con información clave (departamento, cargo).',
             icon: Users,
             href: route('reports.personnel-list')
         },
@@ -52,7 +52,7 @@ const ReportsIndex: React.FC<ReportsIndexProps> = ({ employeeCount, absenceTypeC
                     
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
                         <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-indigo-500">
-                            <p className="text-sm font-medium text-gray-500">Empleados Activos</p>
+                            <p className="text-sm font-medium text-gray-500">Milicianos Activos</p>
                             <p className="mt-1 text-3xl font-semibold text-gray-900">{employeeCount}</p>
                         </div>
                         <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-sky-500">
