@@ -66,7 +66,7 @@ const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments, schedule }
 
     return (
         <AuthenticatedLayout breadcrumbs={breadcrumbs} >
-            <Head title="Crear Empleado" />
+            <Head title="Añadir Miliciano" />
 
             <div className="py-12 min-h-screen">
                 <div className="max-w-5xl sm:px-6 lg:px-8">
@@ -324,7 +324,7 @@ const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments, schedule }
                                         : 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-green-100'
                                         }`}
                                 >
-                                    <AiFillPlusCircle size={"1.2rem"} />   {processing ? 'Guardando...' : 'Crear Empleado'}
+                                    <AiFillPlusCircle size={"1.2rem"} />   {processing ? 'Guardando...' : 'Registrar'}
                                 </button>
                             </div>
                         </form>
