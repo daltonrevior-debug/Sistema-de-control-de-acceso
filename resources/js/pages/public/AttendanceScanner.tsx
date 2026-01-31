@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Head, router } from '@inertiajs/react';
-import { CheckCircle, AlertCircle, Scan, QrCode, RefreshCw, Camera } from 'lucide-react';
+import { Head, router, Link } from '@inertiajs/react';
+import { CheckCircle, AlertCircle, Scan, QrCode, RefreshCw, Camera, ArrowLeft } from 'lucide-react';
 import jsQR from 'jsqr';
 
 type ScannerStatus = 'success' | 'error' | null;
@@ -222,6 +222,18 @@ const AttendanceScanner: React.FC = () => {
                                 </div>
                             </div>
                         )}
+                    </div>
+
+                    <div className="mt-3 flex items-center justify-between">
+                        <div>
+                            <Link
+                                href={route('home')}
+                                className="group flex items-center text-sm font-medium text-gray-500 hover:text-indigo-600 transition-colors"
+                            >
+                                <ArrowLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                                Volver al Inicio
+                            </Link>
+                        </div>
                     </div>
                 </div>
 
