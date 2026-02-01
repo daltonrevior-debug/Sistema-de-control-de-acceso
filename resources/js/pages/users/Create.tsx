@@ -155,7 +155,7 @@ function Create() {
                                     <div className="p-6">
                                         <p className="text-xs text-gray-500 mb-4 bg-amber-50 p-2 rounded border border-amber-100 flex items-center gap-2">
                                             <AlertCircle className="w-4 h-4 text-amber-500" />
-                                            Dejar en blanco para mantener la contraseña actual.
+                                            Agrega una contraseña y confirmala.
                                         </p>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <input
