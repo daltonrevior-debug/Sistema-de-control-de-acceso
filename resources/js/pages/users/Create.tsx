@@ -115,7 +115,7 @@ function Create() {
                                     </div>
                                     <div className="p-6 space-y-5">
                                         <div>
-                                            <label className="block text-sm font-semibold text-gray-700 mb-1">Nombre Completo</label>
+                                            <label className="block text-sm font-semibold text-gray-700 mb-1">Nombre y apellido</label>
                                             <input
                                                 type="text"
                                                 value={data.name}
@@ -137,6 +137,7 @@ function Create() {
                                                     value={data.email}
                                                     onChange={e => setData('email', e.target.value)}
                                                     className="w-full px-4 py-3 rounded-lg border border-gray-200 block pl-10 shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+                                                    placeholder="correo@ejemplo.com"
                                                 />
                                             </div>
                                             {errors.email && <p className="mt-1 text-sm text-red-600 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.email}</p>}

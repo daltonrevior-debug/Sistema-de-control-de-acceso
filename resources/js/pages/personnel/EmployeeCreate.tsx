@@ -124,7 +124,7 @@ const EmployeeCreate: React.FC<EmployeeCreateProps> = ({ departments, schedule }
                                         value={data.last_name}
                                         onChange={(e) => setData('last_name', e.target.value)}
                                         className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                        placeholder="Ej. Pérez"
+                                        placeholder="Ej. Pérez Rodriguez"
                                     />
                                     <p className="text-[10px] text-gray-400 text-right">
                                         {data.last_name.length} / 40

@@ -13,7 +13,7 @@ import { MdOutlineWorkOutline, MdOutlineTimeline } from 'react-icons/md';
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Personal', href: '/dashboard' },
-    { title: 'Editar Empleado', href: '/dashboard' }
+    { title: 'Editar Mliciano', href: '/dashboard' }
 ];
 
 const Jerarquias = [
@@ -61,7 +61,7 @@ const EmployeeEdit: React.FC<EmployeeEditProps> = ({ employee, departments, sche
 
     return (
         <AuthenticatedLayout breadcrumbs={breadcrumbs}>
-            <Head title="Editar Empleado" />
+            <Head title="Editar Miliciano" />
 
             <div className="py-12 min-h-screen">
                 <div className="max-w-5xl sm:px-6 lg:px-8">

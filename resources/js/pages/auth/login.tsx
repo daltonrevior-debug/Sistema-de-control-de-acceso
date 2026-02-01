@@ -67,7 +67,7 @@ const Login = ({ status, canResetPassword }: LoginProps) => {
                                 className="pl-10 h-11 rounded-xl border-gray-200 focus:ring-indigo-500 focus:border-indigo-500"
                                 autoComplete="username"
                                 onChange={(e) => setData('email', e.target.value)}
-                                placeholder="ejemplo@correo.com"
+                                placeholder="correo@ejemplo.com"
                                 required
                             />
                         </div>
