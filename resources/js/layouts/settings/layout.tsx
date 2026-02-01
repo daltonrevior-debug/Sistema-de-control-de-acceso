@@ -11,17 +11,7 @@ const sidebarNavItems: NavItem[] = [
         title: 'Perfil',
         href: '/settings/profile',
         icon: null,
-    },
-    {
-        title: 'Contraseña',
-        href: '/settings/password',
-        icon: null,
-    },
-    {
-        title: 'Apariencia',
-        href: '/settings/appearance',
-        icon: null,
-    },
+    }
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
@@ -49,7 +39,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                                     'bg-muted': currentPath === item.href,
                                 })}
                             >
-                                <Link href={item.href} prefetch>
+                                <Link href={item.href || ""} prefetch>
                                     {item.title}
                                 </Link>
                             </Button>
