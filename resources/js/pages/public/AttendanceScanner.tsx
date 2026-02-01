@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Head, router, Link } from '@inertiajs/react';
 import { CheckCircle, AlertCircle, Scan, QrCode, RefreshCw, Camera, ArrowLeft } from 'lucide-react';
 import jsQR from 'jsqr';
+import { error } from 'console';
 
-type ScannerStatus = 'success' | 'error' | null;
+type ScannerStatus = 'success' | 'error' | "deny" | null;
 
 interface FlashMessages {
     success?: string;
     error?: string;
+    deny?: string;
 }
 
 interface MarkData extends Record<string, string> {
@@ -42,14 +44,28 @@ const AttendanceScanner: React.FC = () => {
             preserveScroll: true,
             onSuccess: (page) => {
                 const flashMessages = (page.props.flash as FlashMessages) || {};
-                setMessage(flashMessages.success || 'Marcaje procesado exitosamente.');
-                setStatus('success');
+
+                if (flashMessages.success) {
+                    setMessage(flashMessages.success || 'Marcaje procesado exitosamente.');
+                    setStatus('success');
+                }
+
+                if (flashMessages.error) {
+                    setMessage(flashMessages.error || 'Acceso Denegado!');
+                    setStatus('error');
+                }
+
+                if (flashMessages.deny) {
+                    setMessage(flashMessages.deny || 'Acceso Denegado!');
+                    setStatus('deny');
+                }
+
+                setLoading(false);
 
                 setTimeout(() => {
                     setScanResult('');
                     setStatus(null);
                     setMessage('');
-                    setLoading(false);
                     isProcessing.current = false;
                 }, 4000);
             },
@@ -61,6 +77,7 @@ const AttendanceScanner: React.FC = () => {
                 setTimeout(() => {
                     setScanResult('');
                     setLoading(false);
+                    setStatus(null);
                     isProcessing.current = false;
                 }, 2000);
             }
@@ -105,6 +122,8 @@ const AttendanceScanner: React.FC = () => {
                         height: { ideal: 720 }
                     }
                 });
+
+                console.log(stream)
 
                 if (videoRef.current) {
                     videoRef.current.srcObject = stream;
@@ -184,11 +203,27 @@ const AttendanceScanner: React.FC = () => {
                             </div>
                         )}
 
-                        {loading && (
-                            <div className="absolute inset-0 bg-indigo-600/90 backdrop-blur-md flex flex-col items-center justify-center text-white p-6 transition-all duration-300">
+                        {(loading && !status) && (
+                            <div className="absolute aspect-square rounded-[2.5rem] inset-0 bg-indigo-600/90 backdrop-blur-md flex flex-col items-center justify-center text-white p-6 transition-all duration-300">
                                 <RefreshCw className="w-14 h-14 animate-spin mb-4 text-white" />
                                 <h2 className="text-2xl font-black tracking-tighter mb-1 uppercase">Validando</h2>
                                 <p className="text-xs font-bold opacity-60 uppercase tracking-widest">Comunicando con servidor</p>
+                            </div>
+                        )}
+
+                        {(!loading && status) && (
+                            <div className={`absolute inset-0 aspect-square rounded-[2.5rem] 
+                            ${status === "success" && 'bg-green-600/90'} 
+                            ${status === "error" && 'bg-rose-500/90'}
+                            ${status === "deny" && 'bg-yellow-400/90'}
+                            backdrop-blur-md flex flex-col items-center justify-center text-white p-6 transition-all duration-300`}>
+                                <CheckCircle className="w-14 h-14 mb-4 text-white" />
+                                <h2 className="text-2xl font-black tracking-tighter mb-1 uppercase">
+                                    {status !== "success" ? "Acceso Denegado" : "Acceso Permitido"}
+                                </h2>
+                                <p className="text-xs text-center font-bold opacity-60 uppercase tracking-widest">
+                                    {message || "Asistencia marcada con exito"}
+                                </p>
                             </div>
                         )}
                     </div>
@@ -207,11 +242,17 @@ const AttendanceScanner: React.FC = () => {
                         )}
 
                         {status && (
-                            <div className={`w-full p-5 rounded-[1.5rem] flex items-center gap-4 transition-all duration-500 scale-100 animate-in zoom-in ${status === 'success'
-                                ? 'bg-emerald-50 text-emerald-900 border border-emerald-100 shadow-lg shadow-emerald-100/50'
-                                : 'bg-rose-50 text-rose-900 border border-rose-100 shadow-lg shadow-rose-100/50'
-                                }`}>
-                                <div className={`p-3 rounded-2xl shrink-0 ${status === 'success' ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white'}`}>
+                            <div className={`w-full p-5 rounded-[1.5rem] flex items-center gap-4 transition-all duration-500 scale-100 animate-in zoom-in
+                            ${status === "success" && 'bg-emerald-50 text-emerald-900 border border-emerald-100 shadow-lg shadow-emerald-100/50'} 
+                            ${status === "error" && 'bg-rose-50 text-rose-900 border border-rose-100 shadow-lg shadow-rose-100/50'}
+                            ${status === "deny" && 'bg-yellow-50 text-yellow-900 border border-yellow-100 shadow-lg shadow-yellow-100/50'} `}
+                            >
+                                <div
+                                    className={`p-3 rounded-2xl shrink-0
+                            ${status === "success" && 'bg-emerald-500 text-white'} 
+                            ${status === "error" && 'bg-rose-500 text-white'}
+                            ${status === "deny" && 'bg-yellow-500 text-black'}`}
+                                >
                                     {status === 'success' ? <CheckCircle className="w-6 h-6" /> : <AlertCircle className="w-6 h-6" />}
                                 </div>
                                 <div className="text-left">
