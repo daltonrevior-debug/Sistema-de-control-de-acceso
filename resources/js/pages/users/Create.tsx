@@ -1,8 +1,8 @@
-import React from 'react'
 import AuthenticatedLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm, Link } from '@inertiajs/react';
 import { UserForm } from '@/types/global';
+import React, { useState } from 'react';
 import {
     Save,
     ArrowLeft,
@@ -10,7 +10,9 @@ import {
     Mail,
     Shield,
     Lock,
-    AlertCircle
+    AlertCircle,
+    Eye,
+    EyeOff
 } from 'lucide-react';
 
 
@@ -20,6 +22,9 @@ function Create() {
         { title: 'Perfiles', href: route('users.index') },
         { title: 'Crear Usuario', href: route('users.create') },
     ];
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const { data, setData, post, processing, errors, setError, clearErrors } = useForm<UserForm>({
         name: '',
@@ -158,18 +163,38 @@ function Create() {
                                             Dejar en blanco para mantener la contraseña actual.
                                         </p>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <input
-                                                type="password"
-                                                placeholder="Nueva contraseña"
-                                                onChange={e => setData('password', e.target.value)}
-                                                className="w-full px-4 py-3 rounded-lg border border-gray-200 block shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
-                                            />
-                                            <input
-                                                type="password"
-                                                placeholder="Confirmar contraseña"
-                                                onChange={e => setData('password_confirmation', e.target.value)}
-                                                className="w-full px-4 py-3 rounded-lg border border-gray-200 block shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
-                                            />
+
+                                            <div className="relative">
+                                                <input
+                                                    type={showPassword ? "text" : "password"}
+                                                    placeholder="Nueva contraseña"
+                                                    onChange={e => setData('password', e.target.value)}
+                                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 block shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600 transition-colors"
+                                                >
+                                                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                                </button>
+                                            </div>
+                                                                                                                                         
+                                            <div className="relative">
+                                                <input
+                                                    type={showConfirm ? "text" : "password"}
+                                                    placeholder="Confirmar contraseña"
+                                                    onChange={e => setData('password_confirmation', e.target.value)}
+                                                    className="w-full px-4 py-3 rounded-lg border border-gray-200 block shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowConfirm(!showConfirm)}
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600 transition-colors"
+                                                >
+                                                    {showConfirm ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                                </button>
+                                            </div>
                                         </div>
                                         {errors.password && <p className="mt-2 text-sm text-red-600">{errors.password}</p>}
                                         {errors.password_confirmation && <p className="mt-2 text-sm text-red-600">{errors.password_confirmation}</p>}

@@ -11,6 +11,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
+import React, { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
+
+const [showCurrent, setShowCurrent] = useState(false);
+const [showNew, setShowNew] = useState(false);
+const [showConfirm, setShowConfirm] = useState(false);
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Configuración de contraseña',
@@ -58,53 +65,83 @@ export default function Password() {
 
                     <form onSubmit={updatePassword} className="space-y-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="current_password">Contraseña actual</Label>
+                            
+                            <div className="relative">
+                                <Label htmlFor="current_password">Contraseña actual</Label>
 
-                            <Input
-                                id="current_password"
-                                ref={currentPasswordInput}
-                                value={data.current_password}
-                                onChange={(e) => setData('current_password', e.target.value)}
-                                type="password"
-                                className="mt-1 block w-full"
-                                autoComplete="current-password"
-                                placeholder="Ingrese su contraseña actual"
-                            />
+                                <Input
+                                    id="current_password"
+                                    ref={currentPasswordInput}
+                                    value={data.current_password}
+                                    onChange={(e) => setData('current_password', e.target.value)}
+                                    type={showCurrent ? "text" : "password"}
+                                    className="mt-1 block w-full"
+                                    autoComplete="current-password"
+                                    placeholder="Ingrese su contraseña actual"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowCurrent(!showCurrent)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600 transition-colors"
+                                >
+                                    {showCurrent ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                </button>
 
-                            <InputError message={errors.current_password} />
+                                <InputError message={errors.current_password} />
+                            </div>
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="password">Nueva contraseña</Label>
 
-                            <Input
-                                id="password"
-                                ref={passwordInput}
-                                value={data.password}
-                                onChange={(e) => setData('password', e.target.value)}
-                                type="password"
-                                className="mt-1 block w-full"
-                                autoComplete="new-password"
-                                placeholder="Mínimo de 8 caracteres"
-                            />
+                             <div className="relative">
+                                <Label htmlFor="password">Nueva contraseña</Label>
 
-                            <InputError message={errors.password} />
+                                <Input
+                                    id="password"
+                                    ref={passwordInput}
+                                    value={data.password}
+                                    onChange={(e) => setData('password', e.target.value)}
+                                    type={showNew ? "text" : "password"}
+                                    className="mt-1 block w-full"
+                                    autoComplete="new-password"
+                                    placeholder="Mínimo de 8 caracteres"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowNew(!showNew)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600 transition-colors"
+                                >
+                                    {showNew ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                </button>
+
+                                <InputError message={errors.password} />
+                            </div>
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="password_confirmation">Confirmar contraseña</Label>
 
-                            <Input
-                                id="password_confirmation"
-                                value={data.password_confirmation}
-                                onChange={(e) => setData('password_confirmation', e.target.value)}
-                                type="password"
-                                className="mt-1 block w-full"
-                                autoComplete="new-password"
-                                placeholder="Repita la contraseña"
-                            />
+                             <div className="relative">
+                                <Label htmlFor="password_confirmation">Confirmar contraseña</Label>
 
-                            <InputError message={errors.password_confirmation} />
+                                <Input
+                                    id="password_confirmation"
+                                    value={data.password_confirmation}
+                                    onChange={(e) => setData('password_confirmation', e.target.value)}
+                                    type={showConfirm ? "text" : "password"}
+                                    className="mt-1 block w-full"
+                                    autoComplete="new-password"
+                                    placeholder="Repita la contraseña"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirm(!showConfirm)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600 transition-colors"
+                                >
+                                    {showConfirm ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                </button>
+
+                                <InputError message={errors.password_confirmation} />
+                            </div>
                         </div>
 
                         <div className="flex items-center gap-4">
