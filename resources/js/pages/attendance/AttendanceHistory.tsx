@@ -2,16 +2,11 @@ import React, { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
+import { Calendar, Filter, Clock, ArrowRight, UserCheck, Timer, Search } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Asistencias',
-        href: '/dashboard',
-    },
-    {
-        title: 'Historial',
-        href: '/dashboard',
-    }
+    { title: 'Asistencias', href: route('attendance.history') },
+    { title: 'Historial', href: '#' }
 ];
 
 interface HistoryEntry {
@@ -32,8 +27,6 @@ interface AttendanceHistoryProps {
 }
 
 const AttendanceHistory: React.FC<AttendanceHistoryProps> = ({ historyData, filters }) => {
-
-    // Estado local para los filtros (permite al usuario modificar las fechas antes de buscar)
     const [localFilters, setLocalFilters] = useState(filters);
 
     const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,109 +46,116 @@ const AttendanceHistory: React.FC<AttendanceHistoryProps> = ({ historyData, filt
 
     return (
         <AuthenticatedLayout breadcrumbs={breadcrumbs}>
-            <Head title="Historial" />
+            <Head title="Historial de Asistencia" />
 
-            <div className="py-12">
-                <div className="w-full mx-auto sm:px-6 lg:px-8">
-                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Historial</h2>
-                    <div className="bg-white sm:rounded-lg p-8">
-                        <h3 className="text-xl font-bold mb-6 border-b pb-2">Registros de Marcaje</h3>
+            <div className="max-w-7xl py-8 px-4 sm:px-6 lg:px-8 space-y-6">
 
-                        <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm mb-8">
-                            <form onSubmit={applyFilters} className="flex flex-wrap md:flex-nowrap items-end gap-6">
-
-                                <div className="flex-grow md:flex-grow-0 space-y-1">
-                                    <label htmlFor="start_date" className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">
-                                        Fecha Inicio
-                                    </label>
-                                    <div className="relative">
-                                        <input
-                                            id="start_date"
-                                            name="start_date"
-                                            type="date"
-                                            value={localFilters.start_date}
-                                            onChange={handleFilterChange}
-                                            className="block w-full px-4 py-2.5 text-sm border-gray-300 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 rounded-lg transition duration-200 outline-none"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="hidden md:block pb-3.5">
-                                    <div className="h-px w-4 bg-gray-300"></div>
-                                </div>
-
-                                <div className="flex-grow md:flex-grow-0 space-y-1">
-                                    <label htmlFor="end_date" className="text-xs font-bold text-gray-500 uppercase tracking-wider ml-1">
-                                        Fecha Fin
-                                    </label>
-                                    <div className="relative">
-                                        <input
-                                            id="end_date"
-                                            name="end_date"
-                                            type="date"
-                                            value={localFilters.end_date}
-                                            onChange={handleFilterChange}
-                                            className="block w-full px-4 py-2.5 text-sm border-gray-300 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 rounded-lg transition duration-200 outline-none"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="w-full md:w-auto">
-                                    <button
-                                        type="submit"
-                                        className="w-full md:w-auto flex justify-center items-center gap-2 px-8 py-2.5 bg-indigo-600 text-white font-bold rounded-lg text-sm hover:bg-indigo-700 shadow-md hover:shadow-indigo-100 transform active:scale-95 transition duration-200"
-                                    >
-                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                                        </svg>
-                                        Aplicar Filtros
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-
-                        {historyData.length > 0 ? (
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
-                                        <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Entrada</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Salida</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duración</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
-                                        {historyData.map((entry) => (
-                                            <tr key={entry.id}>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{entry.date}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{entry.check_in}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{entry.check_out}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-700">{entry.total_time}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span
-                                                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${entry.status === 'tardy'
-                                                            ? 'bg-red-100 text-red-800'
-                                                            : 'bg-green-100 text-green-800'
-                                                            }`}
-                                                    >
-                                                        {entry.status === 'tardy' ? 'Tarde' : 'Normal'}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        ) : (
-                            <div className="p-4 text-center text-gray-500 border rounded-lg bg-gray-50">
-                                No se encontraron registros de asistencia en el rango de fechas seleccionado.
-                            </div>
-                        )}
-
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                            <UserCheck className="w-8 h-8 text-indigo-600" />
+                            Historial de Asistencia
+                        </h1>
+                        <p className="text-sm text-gray-500 mt-1">Consulta los registros de entrada, salida y puntualidad.</p>
                     </div>
+
+                    <form onSubmit={applyFilters} className="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 flex flex-wrap items-center gap-2">
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-xl border border-gray-100">
+                            <Calendar className="w-4 h-4 text-gray-400" />
+                            <input
+                                type="date"
+                                name="start_date"
+                                value={localFilters.start_date}
+                                onChange={handleFilterChange}
+                                className="bg-transparent border-none text-xs font-bold text-gray-700 focus:ring-0 p-0"
+                            />
+                            <ArrowRight className="w-3 h-3 text-gray-300" />
+                            <input
+                                type="date"
+                                name="end_date"
+                                value={localFilters.end_date}
+                                onChange={handleFilterChange}
+                                className="bg-transparent border-none text-xs font-bold text-gray-700 focus:ring-0 p-0"
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-xl transition-all active:scale-95 shadow-md shadow-indigo-100"
+                        >
+                            <Search className="w-4 h-4" />
+                        </button>
+                    </form>
                 </div>
+
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    {historyData.length > 0 ? (
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="bg-gray-50/50 border-b border-gray-100">
+                                        <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Fecha</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Entrada</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Salida</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Horas Totales</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-center">Estatus</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-100">
+                                    {historyData.map((entry) => (
+                                        <tr key={entry.id} className="hover:bg-indigo-50/20 transition-colors group">
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="flex flex-col">
+                                                    <span className="text-sm font-bold text-gray-900">
+                                                        {new Date(entry.date).toLocaleDateString('es-ES', { weekday: 'long' })}
+                                                    </span>
+                                                    <span className="text-xs text-gray-500">{entry.date}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 text-center">
+                                                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-mono text-xs font-bold border border-emerald-100">
+                                                    <Clock className="w-3 h-3" />
+                                                    {entry.check_in}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 text-center">
+                                                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-gray-50 text-gray-600 font-mono text-xs font-bold border border-gray-200">
+                                                    <Clock className="w-3 h-3 opacity-50" />
+                                                    {entry.check_out || '--:--'}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 text-center">
+                                                <div className="flex flex-col items-center">
+                                                    <span className="text-sm font-bold text-gray-800">{entry.total_time || '0h 0m'}</span>
+                                                    <Timer className="w-3 h-3 text-gray-300" />
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 text-center">
+                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${entry.status === 'tardy'
+                                                        ? 'bg-rose-50 text-rose-700 border-rose-100'
+                                                        : 'bg-emerald-50 text-emerald-700 border-emerald-100'
+                                                    }`}>
+                                                    <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${entry.status === 'tardy' ? 'bg-rose-500' : 'bg-emerald-500'}`} />
+                                                    {entry.status === 'tardy' ? 'Tarde' : 'Normal'}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
+                            <div className="p-4 bg-gray-50 rounded-full mb-4">
+                                <Filter className="w-10 h-10 text-gray-300" />
+                            </div>
+                            <h3 className="text-lg font-bold text-gray-900">Sin registros</h3>
+                            <p className="text-sm text-gray-500 max-w-xs mt-1">
+                                No se encontraron registros de asistencia en el rango de fechas seleccionado.
+                            </p>
+                        </div>
+                    )}
+                </div>
+
             </div>
         </AuthenticatedLayout>
     );

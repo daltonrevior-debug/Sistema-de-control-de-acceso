@@ -1,26 +1,20 @@
 import React from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/layouts/app-layout';
 import ScheduleForm from './ScheduleForm';
 import { Schedule } from '@/types/global';
 import { type BreadcrumbItem } from '@/types';
-
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Gestión',
-        href: '/dashboard',
-    },
-    {
-        title: 'Editar horario',
-        href: '/dashboard',
-    }
-];
+import { ArrowLeft, Timer } from 'lucide-react';
 
 interface ScheduleEditProps {
     schedule: Schedule;
 }
 
 const ScheduleEdit: React.FC<ScheduleEditProps> = ({ schedule }) => {
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'Horarios', href: route('config.schedules.index') },
+        { title: 'Editar', href: '#' }
+    ];
 
     const initialData = {
         name: schedule.name,
@@ -30,20 +24,26 @@ const ScheduleEdit: React.FC<ScheduleEditProps> = ({ schedule }) => {
     };
 
     return (
-        <AuthenticatedLayout breadcrumbs={breadcrumbs} >
+        <AuthenticatedLayout breadcrumbs={breadcrumbs}>
             <Head title={`Editar ${schedule.name}`} />
+            <div className="max-w-3xl py-10 px-4">
+                <Link href={route('config.schedules.index')} className="inline-flex items-center text-sm text-gray-500 hover:text-violet-600 mb-6 group transition-colors">
+                    <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+                    Cancelar edición
+                </Link>
 
-            <div className="py-12">
-                <div className="w-full mx-auto sm:px-6 lg:px-8">
-                    <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Editar Horario : {schedule.name}</h2>
-
-                    <div className="bg-white sm:rounded-lg p-8">
-                        <ScheduleForm
-                            initialData={initialData}
-                            actionRoute={route('config.schedules.update', schedule.id)}
-                            method="put"
-                            isEdit={true}
-                        />
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="px-8 py-6 border-b border-gray-50 bg-gray-50/50 flex items-center gap-4">
+                        <div className="p-3 bg-amber-500 rounded-xl text-white shadow-lg shadow-amber-100">
+                            <Timer className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-bold text-gray-900">Ajustar Parámetros</h2>
+                            <p className="text-sm text-gray-500 font-medium">Actualizando horario: <span className="text-violet-600 underline">{schedule.name}</span></p>
+                        </div>
+                    </div>
+                    <div className="p-8">
+                        <ScheduleForm initialData={initialData} actionRoute={route('config.schedules.update', schedule.id)} method="put" isEdit={true} />
                     </div>
                 </div>
             </div>

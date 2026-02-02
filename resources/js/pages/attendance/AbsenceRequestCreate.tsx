@@ -2,14 +2,17 @@ import React from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/layouts/app-layout';
 import InputError from '@/components/input-error';
-import { AbsenceType } from '@/types/global';
+import { AbsenceType, EmployeeSimple } from '@/types/global';
 import { type BreadcrumbItem } from '@/types';
+import { Label } from '@/components/ui/label';
+import { User } from 'lucide-react';
 
 interface AbsenceRequestCreateProps {
     absenceTypes: AbsenceType[];
+    employees: EmployeeSimple[]
 }
 
-const AbsenceRequestCreate: React.FC<AbsenceRequestCreateProps> = ({ absenceTypes }) => {
+const AbsenceRequestCreate: React.FC<AbsenceRequestCreateProps> = ({ absenceTypes, employees }) => {
 
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'Asistencias', href: route('attendance.index') },
@@ -17,6 +20,7 @@ const AbsenceRequestCreate: React.FC<AbsenceRequestCreateProps> = ({ absenceType
     ];
 
     const { data, setData, post, processing, errors } = useForm({
+        employee_id: '',
         absence_type_id: '',
         start_date: '',
         end_date: '',
@@ -47,6 +51,28 @@ const AbsenceRequestCreate: React.FC<AbsenceRequestCreateProps> = ({ absenceType
                         </div>
 
                         <form onSubmit={submit} className="space-y-8">
+
+                            <div className="space-y-2">
+                                <Label htmlFor="employee_id" className="flex items-center gap-2">
+                                    <User className="w-4 h-4 text-gray-400" /> Seleccionar Miliciano
+                                </Label>
+                                <div className="relative">
+                                    <select
+                                        id="employee_id"
+                                        value={data.employee_id}
+                                        onChange={(e) => setData('employee_id', e.target.value)}
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 block shadow-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+                                    >
+                                        <option value="">-- Seleccione del listado --</option>
+                                        {employees.map((emp) => (
+                                            <option key={emp.id} value={emp.id}>
+                                                {emp.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <InputError message={errors.employee_id} />
+                            </div>
 
                             <div className="space-y-1">
                                 <label htmlFor="absence_type_id" className="text-sm font-semibold text-gray-700 ml-1">

@@ -12,16 +12,27 @@ class AbsenceRequestController extends Controller
 {
     protected function getEmployeeId()
     {
-        $employee = Employee::first(); 
-        return $employee ? $employee->id : null; 
+        $employee = Employee::first();
+        return $employee ? $employee->id : null;
     }
 
     public function createEmployeeRequest()
     {
         $absenceTypes = AbsenceType::select('id', 'name', 'is_paid')->get();
-        
+
+        $employees = Employee::select('id', 'first_name', 'last_name', 'employee_id')
+            ->orderBy('first_name')
+            ->get()
+            ->map(function ($employee) {
+                return [
+                    'id' => $employee->id,
+                    'name' => $employee->first_name . ' ' . $employee->last_name . ' (' . $employee->employee_id . ')'
+                ];
+            });
+
         return Inertia::render('attendance/AbsenceRequestCreate', [
             'absenceTypes' => $absenceTypes,
+            'employees' => $employees
         ]);
     }
 
@@ -31,8 +42,9 @@ class AbsenceRequestController extends Controller
         if (!$employeeId) {
             return back()->with('error', 'No se pudo vincular al usuario autenticado con un registro de empleado.');
         }
-        
+
         $validated = $request->validate([
+            'employee_id' => ['required', 'exists:employees,id'],
             'absence_type_id' => ['required', 'exists:absence_types,id'],
             'start_date' => ['required', 'date', 'after_or_equal:today'],
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
@@ -40,7 +52,7 @@ class AbsenceRequestController extends Controller
         ]);
 
         AbsenceRequest::create([
-            'employee_id' => $employeeId,
+            'employee_id' => $validated['employee_id'],
             'absence_type_id' => $validated['absence_type_id'],
             'start_date' => $validated['start_date'],
             'end_date' => $validated['end_date'],
@@ -48,7 +60,7 @@ class AbsenceRequestController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('attendance.index')->with('success', 'Solicitud de ausencia enviada. Esperando aprobación.');
+        return redirect()->route('attendance.history')->with('success', 'Solicitud de ausencia enviada. Esperando aprobación.');
     }
 
     public function indexAdminReview()
@@ -63,13 +75,15 @@ class AbsenceRequestController extends Controller
         ]);
     }
 
-    public function approve(AbsenceRequest $absenceRequest)
+    public function approve(Request $request, AbsenceRequest $absenceRequest)
     {
-        if ($absenceRequest->status !== 'pending') { return back()->with('error', 'Esta solicitud ya fue procesada.'); }
+        if ($absenceRequest->status !== 'pending') {
+            return back()->with('error', 'Esta solicitud ya fue procesada.');
+        }
 
         $absenceRequest->update([
             'status' => 'approved',
-            'approver_id' => auth()->id(), 
+            'approver_id' => $request->user()->id,
         ]);
 
         return redirect()->route('config.absence-requests.index')->with('success', 'Solicitud de ausencia aprobada.');
@@ -77,14 +91,16 @@ class AbsenceRequestController extends Controller
 
     public function reject(Request $request, AbsenceRequest $absenceRequest)
     {
-        if ($absenceRequest->status !== 'pending') { return back()->with('error', 'Esta solicitud ya fue procesada.'); }
-        
+        if ($absenceRequest->status !== 'pending') {
+            return back()->with('error', 'Esta solicitud ya fue procesada.');
+        }
+
         $request->validate(['rejection_reason' => ['required', 'string', 'min:10']]);
 
         $absenceRequest->update([
             'status' => 'rejected',
             'rejection_reason' => $request->rejection_reason,
-            'approver_id' => auth()->id(),
+            'approver_id' => $request->user()->id,
         ]);
 
         return redirect()->route('config.absence-requests.index')->with('success', 'Solicitud de ausencia rechazada.');
@@ -92,14 +108,13 @@ class AbsenceRequestController extends Controller
 
     public function employeeHistory()
     {
-        $employeeId = $this->getEmployeeId(); 
+        $employeeId = $this->getEmployeeId();
 
         if (!$employeeId) {
             return back()->with('error', 'Su perfil de usuario no está vinculado a un empleado activo.');
         }
 
-        $requests = AbsenceRequest::where('employee_id', $employeeId)
-            ->with('absenceType:id,name', 'approver:id,name')
+        $requests = AbsenceRequest::with('absenceType:id,name', 'approver:id,name', 'employee:id,first_name,last_name,employee_id')
             ->orderByDesc('created_at')
             ->paginate(10);
 

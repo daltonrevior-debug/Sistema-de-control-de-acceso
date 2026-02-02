@@ -10,6 +10,37 @@ declare global {
 //     email: string;
 // }
 
+export interface EmployeeSimple {
+    id: number;
+    name: string;
+    employee_id?: string;
+}
+
+export interface Suspension {
+    id: number;
+    employee_id: number;
+    start_date: string;
+    end_date: string;
+    reason: string;
+    employee?: {
+        id: number;
+        first_name: string;
+        last_name: string;
+        employee_id: string;
+    };
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface SuspensionIndexProps {
+    suspensions: PaginatedData<Suspension>;
+}
+
+export interface SuspensionFormProps {
+    employees: EmployeeSimple[];
+    suspension?: Suspension;
+}
+
 export interface UserForm {
     [key: string]: any;
     name: string;
@@ -173,7 +204,7 @@ export interface AbsenceType {
 
 export interface AbsenceRequest {
     id: number;
-    employee_id: number;
+    employee_id: EmployeeSimple;
     absence_type_id: number;
     start_date: string;
     end_date: string;

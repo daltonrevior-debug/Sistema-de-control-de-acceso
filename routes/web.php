@@ -25,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/employees', [\App\Http\Controllers\EmployeeController::class, 'store'])->name('employees.store');
         Route::get('/employees/{employee}/edit', [\App\Http\Controllers\EmployeeController::class, 'edit'])->name('employees.edit');
         Route::put('/employees/{employee}', [\App\Http\Controllers\EmployeeController::class, 'update'])->name('employees.update');
+        Route::resource('suspensions', \App\Http\Controllers\SuspensionController::class);
     });
 
     Route::prefix('attendance')->name('attendance.')->middleware(['role:admin,super_admin', 'permissions:asistencias'])->group(function () {

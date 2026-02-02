@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\AttendanceRecord;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\Suspension;
 
 class PublicAttendanceController extends Controller
 {
@@ -42,6 +43,15 @@ class PublicAttendanceController extends Controller
 
         if ($employee->status !== "active") {
             return back()->with('deny', 'No tienes permitida la entrada.');
+        }
+
+        $isSuspended = Suspension::where('employee_id', $employeeId)
+            ->whereDate('start_date', '<=', $today)
+            ->whereDate('end_date', '>=', $today)
+            ->first();
+
+        if ($isSuspended) {
+            return back()->with('deny', "Acceso denegado: Te encuentras bajo una medida de suspensión desde el {$isSuspended->start_date->format('d/m/Y')} hasta el {$isSuspended->end_date->format('d/m/Y')}.");
         }
 
         $status = 'normal';
